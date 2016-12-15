@@ -20,9 +20,8 @@ biocLite("MLSeq")
 
 If you use MLSeq package in your research, please cite it as below:
 
-```{r, echo=FALSE, warning=FALSE}
-cat("Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver and Ahmet Ozturk (2016). MLSeq: Machine Learning Interface for RNA-Seq Data. R package version 1.15.3.")
-```
+> Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver and Ahmet Ozturk (2016). MLSeq: Machine Learning Interface for RNA-Seq Data. R package version 1.15.3.
+
 
 To get BibTeX entry for LaTeX users, type the following:
 
