@@ -24,6 +24,7 @@ importFrom(caret, train)
 importFrom(caret, confusionMatrix)
 importFrom(caret, predict.train)
 importFrom(caret, trainControl)
+importFrom(stats, model.matrix, predict, relevel, xtabs)
 
 importFrom(limma, voom)
 

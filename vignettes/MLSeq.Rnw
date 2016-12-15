@@ -3,8 +3,13 @@
 
 \documentclass[11pt]{article}
 \usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2cm]{geometry}
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage{color}
+\usepackage[hidelinks]{hyperref}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[numbers]{natbib}
+\bibliographystyle{abbrvnat}
+%\usepackage{textcomp}
 
 \title{\textbf{MLSeq package: Machine Learning Interface to RNA-Seq Data}}
 \author{Gokmen Zararsiz$^{1,2}$, Dincer Goksuluk$^3$, Selcuk Korkmaz$^3$, Vahap Eldem$^4$,\\ Izzet Parug Duru$^5$, Turgay Unver$^6$, Ahmet Ozturk$^1$\\[1cm]
@@ -19,6 +24,11 @@
 \date{}
 
 \begin{document}
+
+<<include=FALSE>>=
+library(knitr)
+@
+
 <<echo=FALSE, message=FALSE, warning=FALSE>>=
 require(knitr)
 opts_chunk$set(cache = TRUE, dev = "pdf", warning=FALSE)
@@ -44,25 +54,25 @@ library(MLSeq)
 
 \texttt{MLSeq} package expects a count table that contains the number of reads mapped to each transcript for each sample and class label information of samples in an \texttt{S4} class \texttt{DESeqDataSet} format.
 
-After mapping the RNA-Seq reads to a reference genome or transcriptome, number of reads mapped to the reference genome can be counted to measure transcript abundance. It is very important that the count values must be raw sequencing read counts to implement the methods given in \texttt{MLSeq} package. There are a number of functions in Bioconductor packages which summarizes mapped reads to a count data format. These tools include \texttt{featureCounts} function in \texttt{Rsubread} package \cite{liao2013}, \texttt{summarizeOverlaps} function in \texttt{GenomicRanges} package \cite{lawrence2013} and \texttt{easyRNASeq} package \cite{delhomme2012}. It is also possible to access this type of count data from Linux-based softwares as \texttt{htseq-count} function in \texttt{HTSeq} \cite{htseq} and \texttt{multicov} function in \texttt{bedtools} \cite{quinlan2010} software. 
+After mapping the RNA-Seq reads to a reference genome or transcriptome, number of reads mapped to the reference genome can be counted to measure transcript abundance. It is very important that the count values must be raw sequencing read counts to implement the methods given in \texttt{MLSeq} package. There are a number of functions in Bioconductor packages which summarizes mapped reads to a count data format. These tools include \texttt{featureCounts} function in \texttt{Rsubread} package \citep{liao2013}, \texttt{summarizeOverlaps} function in \texttt{GenomicRanges} package \citep{lawrence2013} and \texttt{easyRNASeq} package \citep{delhomme2012}. It is also possible to access this type of count data from Linux-based softwares as \texttt{htseq-count} function in \texttt{HTSeq} and \texttt{multicov} function in \texttt{bedtools} \citep{quinlan2010} software. 
 
-In this vignette, we will work with the cervical count data. Cervical data is from an experiment that measures the expression levels of 714 miRNA's of human samples \cite{witten2010}. There are 29 tumor and 29 non-tumor cervical samples and these two groups can be treated as two separete classes for classification purpose. We can define the file path with \texttt{system.file} function: 
+In this vignette, we will work with the cervical count data. Cervical data is from an experiment that measures the expression levels of 714 miRNA's of human samples \citep{witten2010}. There are 29 tumor and 29 non-tumor cervical samples and these two groups can be treated as two separete classes for classification purpose. We can define the file path with \texttt{system.file} function: 
 
 <<chunk1>>=
-filepath = system.file("extdata/cervical.txt", package = "MLSeq")
+filepath <- system.file("extdata/cervical.txt", package = "MLSeq")
 filepath
 @
 
 Next, we can load the data using \texttt{read.table} function:
 
 <<chunk2, message=FALSE>>=
-cervical = read.table(filepath, header=TRUE)
+cervical <- read.table(filepath, header = TRUE)
 @
 
 After loading the data, one can check the counts as follows. These counts are the number of mapped miRNA reads to each transcript.
 
 <<chunk3>>=
-head(cervical[,1:5])
+head(cervical[ ,1:5])
 @
 
 Cervical data is in data.frame format which contains 714 miRNA mapped counts given in rows, belonging to 58 samples given in columns:
@@ -79,36 +89,36 @@ options(width = 63)
 @
 
 <<chunk6>>=
-class = data.frame(condition = factor(rep(c("N","T"), c(29,29))))
-as.factor(class[,1])
+class <- data.frame(condition = factor(rep(c("N", "T"), c(29, 29))))
+as.factor(class[ ,1])
 @
 
 For simplicity, we can work with a subset of cervical data with first 150 features.
 
 <<chunk7>>=
-data = cervical[c(1:150),]
+data <- cervical[c(1:150), ]
 @
 
 Now, we can split the data into two parts as training and test sets. Training set can be used to build classification models, and test set can be used to assess the performance of each model. We can use \texttt{set.seed} function to specify initial value of random-number seed and use \texttt{sample} function for selection.
 
 <<chunk8>>=
-nTest = ceiling(ncol(data)*0.2)  
+nTest <- ceiling(ncol(data)*0.2)  
 set.seed(12345) 
-ind = sample(ncol(data), nTest, FALSE)
+ind <- sample(ncol(data), nTest, FALSE)
 @
 
 Now, training and test sets can be created based on this sampling process:
 
 <<chunk9>>=
-data.train = data[,-ind]    
-data.train = as.matrix(data.train + 1)
-classtr = data.frame(condition = class[-ind,])
+data.train <- data[ ,-ind]    
+data.train <- as.matrix(data.train + 1)
+classtr <- data.frame(condition = class[-ind, ])
 @
 
 <<chunk10>>=
-data.test = data[,ind]
-data.test = as.matrix(data.test + 1)
-classts = data.frame(condition = class[ind,])
+data.test <- data[ ,ind]
+data.test <- as.matrix(data.test + 1)
+classts <- data.frame(condition = class[ind, ])
 @
 
 Now, we have 46 samples which will be used to train the classification models and have remaining 12 samples to be used to test the model performances:
@@ -118,19 +128,19 @@ dim(data.train)
 dim(data.test)
 @
 
-We can now transform our training and test data to \texttt{DESeqDataSet} instance, which is the main data structure in the \texttt{MLSeq} package. For this purpose, we use the \texttt{DESeqDataSetFromMatrix} function of \texttt{DESeq2} package \cite{love2014}:
+We can now transform our training and test data to \texttt{DESeqDataSet} instance, which is the main data structure in the \texttt{MLSeq} package. For this purpose, we use the \texttt{DESeqDataSetFromMatrix} function of \texttt{DESeq2} package \citep{love2014}:
 
 <<chunk12, message=FALSE>>=
-data.trainS4 = DESeqDataSetFromMatrix(countData = data.train,
-colData = classtr, formula(~condition))
-data.trainS4 = DESeq(data.trainS4, fitType="local")
+data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train, 
+																  colData = classtr, formula(~condition))
+data.trainS4 <- DESeq(data.trainS4, fitType="local")
 data.trainS4
 @
 
 <<chunk13, message=FALSE>>=
-data.testS4 = DESeqDataSetFromMatrix(countData = data.test,
-colData = classts, formula(~condition))
-data.testS4 = DESeq(data.testS4, fitType = "local") 
+data.testS4 <- DESeqDataSetFromMatrix(countData = data.test, 
+																 colData = classts, formula(~condition))
+data.testS4 <- DESeq(data.testS4, fitType = "local") 
 data.testS4
 @
 
@@ -138,9 +148,9 @@ Counts and class label information are adequate for classification analysis. How
 
 \section{Data normalization and transformation}
 
-In differential expression analysis of RNA-Seq data, it is crucial to normalize the count data to adjust between-sample differences. In our experiments, we have also seen that normalization significantly increase the performance of most classifiers. In \texttt{MLSeq} package two normalization methods are available. First one is the ``deseq normalization", which estimates the size factors by dividing each sample by the geometric means of the transcript counts \cite{love2014}. Median statistic is mostly used as a size factor for each sample. Another normalization method is ``trimmed mean of M values (TMM)". TMM first trims the data in both lower and upper side by log-fold changes (default 30\%) to minimize the log-fold changes between the samples and by absolute intensity (default 5\%). After trimming, TMM calculates a normalization factor using the weighted mean of data. These weights are calculated based on the inverse approximate asymptotic variances using the delta method \cite{robinson2010}. 
+In differential expression analysis of RNA-Seq data, it is crucial to normalize the count data to adjust between-sample differences. In our experiments, we have also seen that normalization significantly increase the performance of most classifiers. In \texttt{MLSeq} package two normalization methods are available. First one is the ``deseq normalization", which estimates the size factors by dividing each sample by the geometric means of the transcript counts \citep{love2014}. Median statistic is mostly used as a size factor for each sample. Another normalization method is ``trimmed mean of M values (TMM)". TMM first trims the data in both lower and upper side by log-fold changes (default 30\%) to minimize the log-fold changes between the samples and by absolute intensity (default 5\%). After trimming, TMM calculates a normalization factor using the weighted mean of data. These weights are calculated based on the inverse approximate asymptotic variances using the delta method \citep{robinson2010}. 
 
-After the normalization process, it is useful to transform the data for classification analysis. There are two transformation methods available in \texttt{MLSeq} package. First one is the ``voom transformation" which applies a logarithmic transformation to normalized count data and computes gene weights using the mean-dispersion relationship \cite{charity2014}. Second transformation method is the ``vst transformation". This approach uses an error modeling and the concept of variance stabilizing transformations to estimate the mean-dispersion relationship of data \cite{love2014}.
+After the normalization process, it is useful to transform the data for classification analysis. There are two transformation methods available in \texttt{MLSeq} package. First one is the ``voom transformation" which applies a logarithmic transformation to normalized count data and computes gene weights using the mean-dispersion relationship \citep{charity2014}. Second transformation method is the ``vst transformation". This approach uses an error modeling and the concept of variance stabilizing transformations to estimate the mean-dispersion relationship of data \citep{love2014}.
 
 If the normalization method is selected as ``TMM", then \texttt{MLSeq} package automatically applies ``voom" transformation. However, it is possible to select either ``vst" or ``voom" transformations after ``deseq" normalization.
 
@@ -152,11 +162,12 @@ One essential goal of classification analysis is to build a generalizable model 
 
 \section{Building classification models}
 
-Now, we can train our data, data.trainS4, using one of the classifiers among SVM, bagSVM, RF and CART algorithms. To build a classification model, we simply use the \texttt{classify} function. First, let us use CART classifier and choose ``deseq" as normalization method, ``vst" as transformation method and assign this model in ``cart" object. We also define the number of cross validation fold as ``cv=5" and number of repeats as ``rpt=3" for model validation. The reference class is considered as ``T" via \texttt{ref = "T"}.
+Now, we can train our data, data.trainS4, using one of the classifiers among SVM, bagSVM, RF and CART algorithms. To build a classification model, we simply use the \texttt{classify} function. First, let us use SVM classifier and choose ``deseq'' as normalization method, ``vst'' as transformation method and assign this model in ``svm" object. We also define the number of cross validation fold as ``number = 5'' and number of repeats as ``repeats = 3'' for model validation. The reference class is considered as ``T'' via \texttt{ref = "T"}.
 
-<<chunk14, message=FALSE, tidy.opts=list(width.cutoff=65)>>=
+<<chunk14, message = FALSE>>=
 cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-               deseqTransform = "vst", cv = 5, rpt = 3, ref = "T")
+	deseqTransform = "vst", ref = "T", tuneLength = 10,
+	control = trainControl(method = "repeatedcv", number = 5, repeats = 3))
 cart
 @
 
@@ -171,9 +182,10 @@ trained(cart)
 
 Now, let us train another model with same parameters using RF classifier and save this model in ``rf" object.
 
-<<chunk16, message=FALSE, tidy.opts=list(width.cutoff=65)>>=
-rf = classify(data = data.trainS4, method = "randomforest", normalize = "deseq", 
-              deseqTransform = "vst", cv = 5, rpt = 3, ref = "T")
+<<chunk16, message = FALSE>>=
+rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq", 
+	deseqTransform = "vst", ref = "T",
+	control = trainControl(method = "repeatedcv", number = 5, repeats = 3))
 rf
 @
 
@@ -184,25 +196,25 @@ We can see that RF method successfully trained the model without misclassifying 
 Now, we will predict the class labels of our test data ``data.testS4" and test the performance of classifiers based on the models we built using \texttt{classify} function. Here, we use \texttt{predictClassify} function in order to achieve this goal.
 
 <<chunk17, message=FALSE>>=
-pred.cart = predictClassify(cart, data.testS4)
-pred.cart
+pred.cart <- predictClassify(cart, data.testS4, type = "raw")
+pred.cart$Predictions
 @
 
 <<chunk18, message=FALSE>>=
-pred.rf = predictClassify(rf, data.testS4) 
-pred.rf
+pred.rf = predictClassify(rf, data.testS4, type = "raw") 
+pred.rf$Predictions
 @
 
 To assess the predictive performance of each method, we can cross the actual class labels and predictions in a table :
 
 <<chunk19, echo=FALSE, message=FALSE>>=
-cart.tbl <- table(pred.cart, relevel(data.testS4$condition, 2))
-rf.tbl <- table(pred.rf, relevel(data.testS4$condition, 2))
+cart.tbl <- table(pred.cart$Predictions, relevel(data.testS4$condition, 2))
+rf.tbl <- table(pred.rf$Predictions, relevel(data.testS4$condition, 2))
 @
 
 <<chunk19_2>>=
-table(pred.cart, relevel(data.testS4$condition, 2))
-table(pred.rf, relevel(data.testS4$condition, 2))
+table(pred.cart$Predictions, relevel(data.testS4$condition, 2))
+table(pred.rf$Predictions, relevel(data.testS4$condition, 2))
 @
 
 We can see that RF showed better predictive performances than CART by correctly classifying \Sexpr{sum(diag(rf.tbl))} out of \Sexpr{sum(rf.tbl)} test samples with a \Sexpr{round(100*sum(diag(rf.tbl)) / sum(rf.tbl), 2)}\% classification accuracy. However, note that the true classification rate for \texttt{predictClassify} is dependent on number of repeats and selected folds. Therefore, users may have different results that we have obtained above.
@@ -212,18 +224,9 @@ We can see that RF showed better predictive performances than CART by correctly 
 <<chunk20>>=
 sessionInfo()
 @
-\rule[0mm]{40mm}{0.6mm} \\[2cm]
-% BIBLIOGRAHY
-\begin{thebibliography}{20}
-\bibitem{liao2013} Liao Y, Smyth GK, Shi W (2013). featureCounts: an efficient general purpose program for assigning sequence reads to genomic features. \textit{Bioinformatics}.
-\bibitem{lawrence2013} Lawrence M, Huber W, Pages H, et al. (2013). Software for Computing and Annotating Genomic Ranges. \textit{Plos Computational Biology}, DOI: 10.1371/journal.pcbi.1003118.
-\bibitem{delhomme2012} Delhomme N, Padioleau I, Furlong EE, et al. (2012). easyRNASeq: a bioconductor package for processing RNA-Seq data. \textit{Bioinformatics}, 28(\textbf{19}):2532-2533.
-\bibitem{htseq} {\color{blue}http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html}
-\bibitem{quinlan2010} Quinlan AR, Hall IM (2010). BEDTools: a flexible suite of utilities for comparing genomic features. \textit{Bioinformatics}, 26(\textbf{6}):841-842.
-\bibitem{witten2010} Witten D, Tibshirani R, Gu S, et al. (2010). Ultra-high throughput sequencing-based small RNA discovery an discrete statistical biomarker analysis in a collection of cervical tumors and matched controls. \textit{BMC Biology}, 8(\textbf{58}).
-\bibitem{love2014} Love MI, Huber W, Anders S (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2 \textit{Genome Biology}, 15(\textbf{12}):550.
-\bibitem{robinson2010} Robinson MD, Oshlack A (2010). A scaling normalization method for differential expression analysis of RNA-Seq data. \textit{Genome Biology}, 11:R25, doi:10.1186/gb--2010--11--3--r25.
- \bibitem{charity2014} Charity WL, Chen Y, Shi W, et al. (2014) Voom: precision weights unlock linear model analysis tools for RNA-Seq read counts, \textit{Genome Biology}, 15:R29, doi:10.1186/gb--2014--15--2--r29.
-\end{thebibliography}
 
+\rule[0mm]{40mm}{0.6mm} %\\[2cm]
+%\printbibliography
+\newpage
+\bibliography{biblio.bib}
 \end{document}

@@ -3,12 +3,13 @@ setOldClass(c("confusionMatrix","train"))
 # setClass for main class "MLSeq"
 setClass("MLSeq",
 			slots = c(method = "character",
-					  deseqTransform="character",
-					  normalization = "character", confusionMat="confusionMatrix",
-					  trained="train", ref="character"),
+					      deseqTransform = "character",
+					      normalization = "character", 
+					      confusionMat = "confusionMatrix",
+					      trained = "train", 
+					      ref = "character"),
 			prototype = prototype(confusionMat=structure(list(), class="confusionMatrix"),
-            trained=structure(list(), class="train")
-		))
+			                      trained = structure(list(), class="train")))
 
 
 # generic function for class "MLSeq"

@@ -2,55 +2,58 @@
 \docType{methods}
 \alias{trained}
 \alias{trained,MLSeq-method}
-\title{Accessors for the 'trained' slot of an MLSeq object }
+\title{Accessors for the 'trained' slot of an MLSeq object}
 \usage{
-  \S4method{trained}{MLSeq}(object)
-
+\S4method{trained}{MLSeq}(object)
 }
 \arguments{
   \item{object}{an \code{MLSeq} object}
-
 }
 
 \description{
-Details about the training model information which is obtained \code{classify} function.
-
-}
+Details about the trained model which is returned by \code{classify} function. This object is a list returned of class \code{train} from CRAN package "caret".}
 \details{
-\code{trained} slot stores information about the training process such as optimum model parameters and resampling properties on the fitted classification model.
-}
+\code{trained} slot stores information about the training process such as optimum model parameters and resampling properties on the fitted classification model. For detailed information on returned values, see the help manual of \code{train(...)} function in caret.}
 
 \author{
 Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
 }
 
+\seealso{
+\code{\link[caret]{train}}, \code{\link[MLSeq]{classify}}
+}
 
 \examples{
 data(cervical)
 
-data = cervical[c(1:150),]  # a subset of cervical data with first 150 features.
+# a subset of cervical data with first 150 features.
+data <- cervical[c(1:150), ]
 
-class = data.frame(condition=factor(rep(c("N","T"),c(29,29))))# defining sample classes.
+# defining sample classes.
+class <- data.frame(condition = factor(rep(c("N","T"), c(29, 29))))   
 
-n = ncol(data)  # number of samples
-p = nrow(data)  # number of features
+n <- ncol(data)  # number of samples
+p <- nrow(data)  # number of features
 
-nTest = ceiling(n*0.2)  # number of samples for test set (20% test, 80% train).
-ind = sample(n,nTest,FALSE)
+# number of samples for test set (20% test, 80% train).
+nTest <- ceiling(n*0.2)  
+ind <- sample(n, nTest, FALSE)
 
 # train set
-data.train = data[,-ind]
-data.train = as.matrix(data.train + 1)
-classtr = data.frame(condition=class[-ind,])
+data.train <- data[ ,-ind]
+data.train <- as.matrix(data.train + 1)
+classtr <- data.frame(condition=class[-ind, ])
 
 # train set in S4 class
-data.trainS4 = DESeqDataSetFromMatrix(countData = data.train,
-colData = classtr, formula(~ condition))
-data.trainS4 = DESeq(data.trainS4, fitType="local")
+data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
+                                       colData = classtr, formula(~ condition))
+data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
-# Random Forest (RF) Classification
-rf = classify(data = data.trainS4, method = "randomforest", normalize = "deseq", deseqTransform = "vst", cv = 5, rpt = 3, ref="T")
+## Number of repeats (repeats) might change model accuracies ##
+# Classification and Regression Tree (CART) Classification
+cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq", 
+	deseqTransform = "vst", ref = "T",
+	control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-trained(rf)
-
+trained(cart)
 }

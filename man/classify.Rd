@@ -1,44 +1,35 @@
 \name{classify}
 \alias{classify}
-
 \title{
 Fitting Classification Models to Sequencing Data}
 \description{
 This function fits classification algorithms to sequencing data and measures model performances using various statistics
 }
 \usage{
-classify(data, method = c("svm", "bagsvm", "randomforest", "cart"), normalize = c("deseq", "none", "tmm"), 
-deseqTransform = c("vst", "voomCPM"), cv = 5, rpt = 10, B = 100, ref=NULL, ...)
+classify(data, method = c("svm", "bagsvm", "randomforest", "cart"), 
+         normalize = c("deseq", "none", "tmm"), deseqTransform = c("vst", "voomCPM"), 
+         control = trainControl(method = "repeatedcv", number = 5, repeats = 10), 
+         B = 100, ref = NULL, ...)
 }
 
 \arguments{
-  \item{data}{
-\code{DESeqDataSet} instance
-}
-  \item{method}{
-There are four methods available to perform classification: \code{svm}: support vector machines using radial-based kernel function, \code{bagsvm}: support vector machines with bagging ensemble, \code{randomForest}: random forest algorithm, \code{cart}: classification and regression trees algorithm.}
-  \item{normalize}{
-Normalization of count data for classification. \code{none}: Normalization is not applied. Count data is used for classification. \code{deseq}: deseq normalization. \code{tmm}: Trimmed mean of \code{M} values. 
-}
-  \item{deseqTransform}{
-Transformation method applied after normalization.\code{vst}: variance stabilizing transformation. \code{voomCPM}: voom transformation (log of counts-per-million).
+  \item{data}{\code{DESeqDataSet} instance}
 
+  \item{method}{There are four methods available to perform classification: \code{svm}: support vector machines using radial-based kernel function, \code{bagsvm}: support vector machines with bagging ensemble, \code{randomForest}: random forest algorithm, \code{cart}: classification and regression trees algorithm.}
+
+  \item{normalize}{Normalization of count data for classification. \code{none}: Normalization is not applied. Count data is used for classification. \code{deseq}: deseq normalization. \code{tmm}: Trimmed mean of \code{M} values. }
+
+  \item{deseqTransform}{Transformation method applied after normalization.\code{vst}: variance stabilizing transformation. \code{voomCPM}: voom transformation (log of counts-per-million).}
+
+  \item{control}{a list including all the control parameters passed to model training process. This arguement is a wrapper for the arguement \code{trControl} from caret package. See \bold{?trainControl} for details.}
+
+  \item{B}{Number of bootstrap samples for \code{bagsvm} method.}
+
+  \item{ref}{User defined reference class. Default is \code{NULL}.}
+
+  \item{\dots}{Optional arguments for \code{train()} function from \code{caret} package.}
 }
-  \item{cv}{
-Number of cross-validation folds.}
-  \item{rpt}{
-Number of complete sets of folds for computation.
-}
-  \item{B}{
-Number of bootstrap samples for \code{bagsvm} method.
-}
-  \item{ref}{
-User defined reference class. Default is \code{NULL}.
-}
-  \item{\dots}{
-Optional arguments for \code{train()} function from \code{caret} package.
-}
-}
+
 \details{
 In RNA-Seq studies, normalization is used to adjust between-sample differences for further analysis. In this package, "deseq" and "tmm" normalization methods are available. "deseq" estimates the size factors by dividing each sample by the geometric means of the transcript counts. "tmm" trims the lower and upper side of the data by log fold changes to minimize the log-fold changes between the samples and by absolute intensity. After normalization, it is useful to transform the data for classification. \code{MLSeq} package has "voomCPM" and "vst" transformation methods. "voomCPM" transformation applies a logarithmic transformation (log-cpm) to normalized count data. Second transformation method is the "vst" transformation and this approach uses an error modeling and the concept of variance stabilizing transformations to estimate the mean-dispersion relationship of data.
 
@@ -74,36 +65,45 @@ Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru,
 \seealso{
 \code{\link[MLSeq]{predictClassify}}
 }
+
 \examples{
 data(cervical)
 
-data = cervical[c(1:150),]  # a subset of cervical data with first 150 features.
+# a subset of cervical data with first 150 features.
+data <- cervical[c(1:150), ]  
 
-class = data.frame(condition=factor(rep(c("N","T"),c(29,29))))# defining sample classes.
+# defining sample classes.
+class <- data.frame(condition = factor(rep(c("N","T"), c(29, 29))))   
 
-n = ncol(data)  # number of samples
-p = nrow(data)  # number of features
+n <- ncol(data)  # number of samples
+p <- nrow(data)  # number of features
 
-nTest = ceiling(n*0.2)  # number of samples for test set (20% test, 80% train).
-ind = sample(n,nTest,FALSE)
+# number of samples for test set (20% test, 80% train).
+nTest <- ceiling(n*0.2)  
+ind <- sample(n, nTest, FALSE)
 
 # train set
-data.train = data[,-ind]
-data.train = as.matrix(data.train + 1)
-classtr = data.frame(condition=class[-ind,])
+data.train <- data[ ,-ind]
+data.train <- as.matrix(data.train + 1)
+classtr <- data.frame(condition=class[-ind, ])
 
 # train set in S4 class
-data.trainS4 = DESeqDataSetFromMatrix(countData = data.train,
-colData = classtr, formula(~ condition))
-data.trainS4 = DESeq(data.trainS4, fitType="local")
+data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
+                                       colData = classtr, formula(~ condition))
+data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
+## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
-cart = classify(data = data.trainS4, method = "cart", normalize = "deseq", deseqTransform = "vst", cv = 5, rpt = 3, ref="T")
+cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq", 
+  deseqTransform = "vst", ref = "T",
+  control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
-rf = classify(data = data.trainS4, method = "randomforest", normalize = "deseq", deseqTransform = "vst", cv = 5, rpt = 3, ref="T")
-rf
+# rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq", 
+#  deseqTransform = "vst", ref = "T", 
+#  control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+# rf
 }
 
 \keyword{ RNA-seq classification }

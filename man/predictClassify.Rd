@@ -1,14 +1,16 @@
 \name{predictClassify}
 \alias{predictClassify}
-\title{
-Extract Predictions From \code{classify()} objects
-}
+
+\title{Extract Predictions From \code{classify()} objects}
+
 \description{
 This function predicts the class labels of test data for a given model.
 }
+
 \usage{
-predictClassify(model, test.data)
+predictClassify(model, test.data, ...)
 }
+
 \arguments{
   \item{model}{
 a model of \code{MLSeq} class 
@@ -16,9 +18,13 @@ a model of \code{MLSeq} class
   \item{test.data}{
 a \code{DESeqDataSet} instance of new observations.
 }
+	\item{...}{
+further arguments to be passed to or from methods.
+}
 }
 \value{
-\item{predicted }{a vector of predicted classes of test data. See details.}
+\item{MLSeqObject}{an MLSeq object returned from \code{classify}. See details.}
+\item{Predictions}{a data frame or vector including either the predicted class probabilities or class labels of given test data.}
 }
 \details{
 \code{predictClassify} function gives a vector of predicted classes of data set. This vector is in \code{factor} class. 
@@ -43,55 +49,62 @@ Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru,
 \seealso{
 \code{\link[MLSeq]{classify}}
 }
+
 \examples{
 data(cervical)
 
-data = cervical[c(1:150),]  # a subset of cervical data with first 150 features.
+# a subset of cervical data with first 150 features.
+data <- cervical[c(1:150), ]  
 
-class = data.frame(condition=factor(rep(c("N","T"),c(29,29))))# defining sample classes.
+# defining sample classes.
+class <- data.frame(condition = factor(rep(c("N","T"), c(29, 29))))   
 
-n = ncol(data)  # number of samples
-p = nrow(data)  # number of features
+n <- ncol(data)  # number of samples
+p <- nrow(data)  # number of features
 
-nTest = ceiling(n*0.2)  # number of samples for test set (20% test, 80% train).
-ind = sample(n,nTest,FALSE)
+# number of samples for test set (20% test, 80% train).
+nTest <- ceiling(n*0.2)  
+ind <- sample(n, nTest, FALSE)
 
 # train set
-data.train = data[,-ind]
-data.train = as.matrix(data.train + 1)
-classtr = data.frame(condition=class[-ind,])
+data.train <- data[ ,-ind]
+data.train <- as.matrix(data.train + 1)
+classtr <- data.frame(condition = class[-ind, ])
 
 # train set in S4 class
 data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-colData = classtr, formula(~ condition))
-data.trainS4 <- DESeq(data.trainS4, fitType="local")
+                                       colData = classtr, formula(~ condition))
+data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
 # test set
-data.test = data[,ind]
-data.test = as.matrix(data.test + 1)
-classts = data.frame(condition=class[ind,])
+data.test <- data[ ,ind]
+data.test <- as.matrix(data.test + 1)
+classts <- data.frame(condition=class[ind, ])
 
 # test set in S4 
-data.testS4 = DESeqDataSetFromMatrix(countData = data.test,
-colData = classts, formula(~ condition))
-data.testS4 = DESeq(data.testS4, fitType="local")
+data.testS4 <- DESeqDataSetFromMatrix(countData = data.test,
+                                     colData = classts, formula(~ condition))
+data.testS4 <- DESeq(data.testS4, fitType = "local")
 
-## Number of repeats (rpt) might change model accuracies ##
-
+## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
-cart = classify(data = data.trainS4, method = "cart", normalize = "deseq", deseqTransform = "vst", cv = 5, rpt = 3, ref="T")
+cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq", 
+	deseqTransform = "vst", ref = "T", 
+  control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
-rf = classify(data = data.trainS4, method = "randomforest", normalize = "deseq", deseqTransform = "vst", cv = 5, rpt = 3, ref="T")
+rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq", 
+	deseqTransform = "vst", ref = "T",
+  control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 rf
 
-# predicted classes of test samples for SVM method
-pred.cart = predictClassify(cart, data.testS4)
+# predicted classes of test samples for CART method (class probabilities)
+pred.cart = predictClassify(cart, data.testS4, type = "prob")
 pred.cart
 
-# predicted classes of test samples for RF method
-pred.rf = predictClassify(rf, data.testS4)
+# predicted classes of test samples for RF method (class labels)
+pred.rf = predictClassify(rf, data.testS4, type = "raw")
 pred.rf
 }
 

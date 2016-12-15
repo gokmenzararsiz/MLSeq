@@ -8,7 +8,7 @@
 For classification, this is the main class for the \code{MLSeq} package.
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("ClassifySeq", ...)}.
+Objects can be created by calls of the form \code{new("MLSeq", ...)}.
 
 This type of objects is created as a result of \code{classify} function of \code{MLSeq} package. It is then used in \code{predictClassify} function for predicting the class labels of new samples.
 }
@@ -30,7 +30,5 @@ An \code{MLSeq} class stores the results of \code{classify} function and offers 
 }
 
 \examples{
-
 # See the vignette
-
 }
