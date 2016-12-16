@@ -24,11 +24,10 @@ classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),
   }
   if (normalize == "none") {
     deseqTransform = "NULL"
-    warning("\"deseqTransform\" method is not used for normalize=\"none\" option")
+    warning("\"deseqTransform\" method is ignored since normalization is not applied.")
   }
   conditions = as.factor(data$condition)
-  conditions = relevel(conditions, which(levels(conditions) == 
-                                           ref))
+  conditions = relevel(conditions, which(levels(conditions) == ref))
   counts = counts(data)
   org.classes = conditions
   org.class.levels = levels(org.classes)

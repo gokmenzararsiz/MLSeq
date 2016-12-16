@@ -11,7 +11,7 @@ Depends: R (>= 3.0.0), caret, DESeq2, Biobase, limma, randomForest,
 VignetteBuilder: knitr
 Suggests: knitr, e1071, kernlab, earth, ellipse, fastICA, gam, ipred,
         klaR, MASS, mda, mgcv, mlbench, nnet, party, pls, pROC, proxy,
-        RANN, spls, affy
+        RANN, spls, affy, testthat
 Imports: methods
 Collate: class.R generics.R methods.R classify.R predictClassify.R
 biocViews: Sequencing, RNASeq, Classification, Clustering
