@@ -1,19 +1,30 @@
-# generic function for slot "method"
+#' @rdname method
+#' @export
 setGeneric("method", function(object) standardGeneric("method"))
 
-# generic function for slot "transformation"
+
+#' @rdname transformation
+#' @export
 setGeneric("transformation", function(object) standardGeneric("transformation"))
 
-# generic function for slot "normalization"
+
+#' @rdname normalization
+#' @export
 setGeneric("normalization", function(object) standardGeneric("normalization"))
 
-# generic function for slot "confusionMat"
+
+#' @rdname confusionMat
+#' @export
 setGeneric("confusionMat", function(object) standardGeneric("confusionMat"))
 
-# generic function for slot "trainedModel"
+
+#' @rdname trained
+#' @export
 setGeneric("trained", function(object) standardGeneric("trained"))
 
-# generic function for slot "ref"
+
+#' @rdname ref
+#' @export
 setGeneric("ref", function(object) standardGeneric("ref"))
 
 

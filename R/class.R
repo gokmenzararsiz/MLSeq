@@ -1,6 +1,40 @@
 setOldClass(c("confusionMatrix","train"))
 
-# setClass for main class "MLSeq"
+#' \code{MLSeq} object
+#'
+#' For classification, this is the main class for the \code{MLSeq} package.
+#'
+#' @section Object from the Class
+#'
+#' Objects can be created by calls of the form \code{new("MLSeq", ...)}. This type
+#' of objects is created as a result of \code{classify} function of \code{MLSeq} package.
+#' It is then used in \code{predictClassify} function for predicting the class labels of new samples.
+#'
+#' @section Slots
+#' \describe{
+#' \item \code{method}: stores the name of used classification method in the classification model
+#' \item \code{transformation}: stores the name of used transformation method in the classification model
+#' \item \code{normalization}: stores the name of used normalization method in the classification model
+#' \item \code{confusionMat}: stores the information of classification performance results
+#' \item \code{trainedModel}: stores the information about training process and model parameters that used in the corresponding model
+#' \item \code{ref}: stores user defined reference class
+#' }
+#'
+#' @note An \code{MLSeq} class stores the results of \code{classify} function and offers further slots that are populated
+#' during the analysis. The slot \code{confusionMat} stores the information of classification performance results. These
+#' results contain the classification table and several statistical measures including accuracy rate, sensitivity, specifity,
+#' positive and negative predictive rates, etc. \code{method}, \code{normalization} and \code{deseqTransform} slots store
+#' the name of used classification method, normalization method and transformation method in the classification model respectively.
+#' Lastly, the slot \code{trained} stores the information about training process and model parameters that used in the corresponding model.
+#'
+#' @author Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
+#'
+#' @docType class
+#' @name MLSeq-class
+#' @rdname MLSeq
+#' @aliases MLSeq-class
+#'
+#' @export
 setClass("MLSeq",
 			slots = c(method = "character",
 					      transformation = "character",
@@ -12,11 +46,13 @@ setClass("MLSeq",
 			                      trainedModel = structure(list(), class="train")))
 
 
-# generic function for class "MLSeq"
+#' @rdname MLSeq
+#' @export
 setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
 
 
-#method for class MLSeq
+#' @rdname MLSeq
+#' @export
 setMethod("show",
 signature = "MLSeq",
 definition = function(object) {
@@ -42,7 +78,8 @@ definition = function(object) {
 })
 
 
-# validity for class "MLSeq"
+#' @rdname MLSeq
+#' @export
 setValidity( "MLSeq", function( object ) {
 
     if (!(method(object)  %in% c("svm", "bagsvm", "randomforest", "cart")))

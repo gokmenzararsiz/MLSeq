@@ -22,6 +22,7 @@
 #' @keywords package
 NULL
 
+
 #' Cervical cancer data
 #'
 #' Cervical cancer data measures the expressions of 714 miRNAs of human samples. There are 29 tumor and 29 non-tumor cervical
