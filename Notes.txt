@@ -1,0 +1,375 @@
+==> devtools::check(args = c('--as-cran'))
+
+Updating MLSeq documentation
+Loading MLSeq
+Loading required package: caret
+Loading required package: lattice
+Loading required package: ggplot2
+Loading required package: DESeq2
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, cbind, colnames, do.call,
+    duplicated, eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:base’:
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: limma
+
+Attaching package: ‘limma’
+
+The following object is masked from ‘package:DESeq2’:
+
+    plotMA
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    plotMA
+
+Loading required package: randomForest
+randomForest 4.6-12
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:Biobase’:
+
+    combine
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: edgeR
+Setting env vars ---------------------------------------------------------------
+CFLAGS  : -Wall -pedantic
+CXXFLAGS: -Wall -pedantic
+Building MLSeq -----------------------------------------------------------------
+'/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file --no-environ  \
+  --no-save --no-restore --quiet CMD build '/Users/dncr/GitHub/MLSeq'  \
+  --no-resave-data --no-manual 
+
+* checking for file ‘/Users/dncr/GitHub/MLSeq/DESCRIPTION’ ... OK
+* preparing ‘MLSeq’:
+* checking DESCRIPTION meta-information ... OK
+* installing the package to build vignettes
+* creating vignettes ... OK
+* checking for LF line-endings in source and make files
+* checking for empty or unneeded directories
+* looking to see if a ‘data/datalist’ file should be added
+* building ‘MLSeq_1.15.3.1.tar.gz’
+
+Setting env vars ---------------------------------------------------------------
+_R_CHECK_CRAN_INCOMING_ : FALSE
+_R_CHECK_FORCE_SUGGESTS_: FALSE
+Checking MLSeq -----------------------------------------------------------------
+'/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file --no-environ  \
+  --no-save --no-restore --quiet CMD check  \
+  '/var/folders/pp/flv077dx1mv5x78ggcr4b6yr0000gn/T//RtmpxSG0Bh/MLSeq_1.15.3.1.tar.gz'  \
+  --as-cran --timings --as-cran --no-manual 
+
+* using log directory ‘/Users/dncr/GitHub/MLSeq.Rcheck’
+* using R version 3.3.2 (2016-10-31)
+* using platform: x86_64-apple-darwin13.4.0 (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --as-cran’
+* checking for file ‘MLSeq/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MLSeq’ version ‘1.15.3.1’
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Depends: includes the non-default packages:
+  ‘caret’ ‘DESeq2’ ‘Biobase’ ‘limma’ ‘randomForest’ ‘edgeR’
+Adding so many packages to the search path is excessive and importing
+selectively is preferable.
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘MLSeq’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+classify: no visible global function definition for
+  ‘AnnotatedDataFrame’
+classify: no visible global function definition for ‘bagControl’
+classify: no visible binding for global variable ‘svmBag’
+predictClassify: no visible global function definition for
+  ‘AnnotatedDataFrame’
+Undefined global functions or variables:
+  AnnotatedDataFrame bagControl svmBag
+* checking Rd files ... NOTE
+prepare_Rd: MLSeq-package.Rd:23-25: Dropping empty section \references
+* checking Rd metadata ... OK
+* checking Rd line widths ... NOTE
+Rd file 'classify.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'confusionMat-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'method-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'normalization-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'predictClassify.Rd':
+  \examples lines wider than 100 characters:
+                     control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+                   control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'ref-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'trained-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'transformation-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+These lines will be truncated in the PDF manual.
+* checking Rd cross-references ... WARNING
+Missing link or links in documentation object 'classify.Rd':
+  ‘MLSeq’
+
+Missing link or links in documentation object 'method-methods.Rd':
+  ‘trained’
+
+See section 'Cross-references' in the 'Writing R Extensions' manual.
+
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘confusionMat’ ‘method’ ‘normalization’ ‘ref’ ‘trained’
+  ‘transformation’
+Undocumented S4 classes:
+  ‘MLSeq’
+Undocumented S4 methods:
+  generic 'confusionMat' and siglist 'MLSeq'
+  generic 'method' and siglist 'MLSeq'
+  generic 'normalization' and siglist 'MLSeq'
+  generic 'ref' and siglist 'MLSeq'
+  generic 'trained' and siglist 'MLSeq'
+  generic 'transformation' and siglist 'MLSeq'
+All user-level objects in a package (including S4 classes and methods)
+should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Objects in \usage without \alias in documentation object 'confusionMat-methods':
+  ‘\S4method{confusionMat}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'method-methods':
+  ‘\S4method{method}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'normalization-methods':
+  ‘\S4method{normalization}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'ref-methods':
+  ‘\S4method{ref}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'trained-methods':
+  ‘\S4method{trained}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'transformation-methods':
+  ‘\S4method{transformation}{MLSeq}’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking sizes of PDF files under ‘inst/doc’ ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+Examples with CPU or elapsed time > 5s
+                 user system elapsed
+predictClassify 7.011  0.038   7.067
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ...
+  Running ‘testthat.R’ OK
+* checking for unstated dependencies in vignettes ...
+ OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking re-building of vignette outputs ... OK
+* DONE
+Status: 3 WARNINGs, 4 NOTEs
+checking Rd cross-references ... WARNING
+Missing link or links in documentation object 'classify.Rd':
+  ‘MLSeq’
+
+Missing link or links in documentation object 'method-methods.Rd':
+  ‘trained’
+
+See section 'Cross-references' in the 'Writing R Extensions' manual.
+
+
+checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘confusionMat’ ‘method’ ‘normalization’ ‘ref’ ‘trained’
+  ‘transformation’
+Undocumented S4 classes:
+  ‘MLSeq’
+Undocumented S4 methods:
+  generic 'confusionMat' and siglist 'MLSeq'
+  generic 'method' and siglist 'MLSeq'
+  generic 'normalization' and siglist 'MLSeq'
+  generic 'ref' and siglist 'MLSeq'
+  generic 'trained' and siglist 'MLSeq'
+  generic 'transformation' and siglist 'MLSeq'
+All user-level objects in a package (including S4 classes and methods)
+should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+
+checking Rd \usage sections ... WARNING
+Objects in \usage without \alias in documentation object 'confusionMat-methods':
+  ‘\S4method{confusionMat}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'method-methods':
+  ‘\S4method{method}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'normalization-methods':
+  ‘\S4method{normalization}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'ref-methods':
+  ‘\S4method{ref}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'trained-methods':
+  ‘\S4method{trained}{MLSeq}’
+
+Objects in \usage without \alias in documentation object 'transformation-methods':
+  ‘\S4method{transformation}{MLSeq}’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+
+checking package dependencies ... NOTE
+Depends: includes the non-default packages:
+  ‘caret’ ‘DESeq2’ ‘Biobase’ ‘limma’ ‘randomForest’ ‘edgeR’
+Adding so many packages to the search path is excessive and importing
+selectively is preferable.
+
+checking R code for possible problems ... NOTE
+classify: no visible global function definition for
+  ‘AnnotatedDataFrame’
+classify: no visible global function definition for ‘bagControl’
+classify: no visible binding for global variable ‘svmBag’
+predictClassify: no visible global function definition for
+  ‘AnnotatedDataFrame’
+Undefined global functions or variables:
+  AnnotatedDataFrame bagControl svmBag
+
+checking Rd files ... NOTE
+prepare_Rd: MLSeq-package.Rd:23-25: Dropping empty section \references
+
+checking Rd line widths ... NOTE
+Rd file 'classify.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'confusionMat-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'method-methods.Rd':
+... 15 lines ...
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'trained-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+Rd file 'transformation-methods.Rd':
+  \examples lines wider than 100 characters:
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+
+These lines will be truncated in the PDF manual.
+
+See
+  ‘/Users/dncr/GitHub/MLSeq.Rcheck/00check.log’
+for details.
+
+
+R CMD check results
+0 errors | 3 warnings | 4 notes
+Warning message:
+The existing 'NAMESPACE' file was not generated by roxygen2, and will not be overwritten. 
+
+R CMD check succeeded

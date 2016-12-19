@@ -43,7 +43,7 @@ export(classify)
 export(predictClassify)
 
 exportMethods(method)
-exportMethods(deseqTransform)
+exportMethods(transformation)
 exportMethods(normalization)
 exportMethods(confusionMat)
 exportMethods(trained)
