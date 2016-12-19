@@ -4,21 +4,16 @@ setOldClass(c("confusionMatrix","train"))
 #'
 #' For classification, this is the main class for the \code{MLSeq} package.
 #'
-#' @section Object from the Class
-#'
 #' Objects can be created by calls of the form \code{new("MLSeq", ...)}. This type
 #' of objects is created as a result of \code{classify} function of \code{MLSeq} package.
 #' It is then used in \code{predictClassify} function for predicting the class labels of new samples.
 #'
-#' @section Slots
-#' \describe{
-#' \item \code{method}: stores the name of used classification method in the classification model
-#' \item \code{transformation}: stores the name of used transformation method in the classification model
-#' \item \code{normalization}: stores the name of used normalization method in the classification model
-#' \item \code{confusionMat}: stores the information of classification performance results
-#' \item \code{trainedModel}: stores the information about training process and model parameters that used in the corresponding model
-#' \item \code{ref}: stores user defined reference class
-#' }
+#' @slot method stores the name of used classification method in the classification model
+#' @slot transformation stores the name of used transformation method in the classification model
+#' @slot normalization stores the name of used normalization method in the classification model
+#' @slot confusionMat stores the information of classification performance results
+#' @slot trained stores the information about training process and model parameters that used in the corresponding model
+#' @slot ref stores user defined reference class
 #'
 #' @note An \code{MLSeq} class stores the results of \code{classify} function and offers further slots that are populated
 #' during the analysis. The slot \code{confusionMat} stores the information of classification performance results. These
@@ -31,8 +26,8 @@ setOldClass(c("confusionMatrix","train"))
 #'
 #' @docType class
 #' @name MLSeq-class
-#' @rdname MLSeq
-#' @aliases MLSeq-class
+#' @rdname MLSeq-class
+#' @aliases MLSeq MLSeq-class
 #'
 #' @export
 setClass("MLSeq",
@@ -46,13 +41,10 @@ setClass("MLSeq",
 			                      trainedModel = structure(list(), class="train")))
 
 
-#' @rdname MLSeq
-#' @export
 setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
 
 
-#' @rdname MLSeq
-#' @export
+
 setMethod("show",
 signature = "MLSeq",
 definition = function(object) {
@@ -78,10 +70,7 @@ definition = function(object) {
 })
 
 
-#' @rdname MLSeq
-#' @export
-setValidity( "MLSeq", function( object ) {
-
+setValidity("MLSeq", function( object ) {
     if (!(method(object)  %in% c("svm", "bagsvm", "randomforest", "cart")))
     return("Error: 'method' slot must be in one of the following methods: \"svm\", \"bagsvm\", \"randomforest\", \"cart\" ")
 

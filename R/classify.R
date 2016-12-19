@@ -117,8 +117,6 @@ NULL
 #' @importFrom stats xtabs model.matrix predict relevel
 #' @exportClass MLSeq
 #'
-#' @useDynLib DESeq2
-#'
 #' @seealso \code{\link{predictClassify}}, \code{\link[caret]{train}}, \code{\link[caret]{trainControl}}
 #'
 #' @examples
