@@ -105,7 +105,7 @@ _R_CHECK_FORCE_SUGGESTS_: FALSE
 Checking MLSeq -----------------------------------------------------------------
 '/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file --no-environ  \
   --no-save --no-restore --quiet CMD check  \
-  '/var/folders/pp/flv077dx1mv5x78ggcr4b6yr0000gn/T//RtmpxSG0Bh/MLSeq_1.15.3.1.tar.gz'  \
+  '/var/folders/pp/flv077dx1mv5x78ggcr4b6yr0000gn/T//Rtmpe2Isuj/MLSeq_1.15.3.1.tar.gz'  \
   --as-cran --timings --as-cran --no-manual 
 
 * using log directory ‘/Users/dncr/GitHub/MLSeq.Rcheck’
@@ -165,15 +165,15 @@ Rd file 'classify.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'confusionMat-methods.Rd':
+Rd file 'confusionMat.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'method-methods.Rd':
+Rd file 'method.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'normalization-methods.Rd':
+Rd file 'normalization.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
@@ -182,15 +182,15 @@ Rd file 'predictClassify.Rd':
                      control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
                    control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'ref-methods.Rd':
+Rd file 'ref.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'trained-methods.Rd':
+Rd file 'trained.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'transformation-methods.Rd':
+Rd file 'transformation.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
@@ -199,15 +199,9 @@ These lines will be truncated in the PDF manual.
 Missing link or links in documentation object 'classify.Rd':
   ‘MLSeq’
 
-Missing link or links in documentation object 'method-methods.Rd':
-  ‘trained’
-
 See section 'Cross-references' in the 'Writing R Extensions' manual.
 
 * checking for missing documentation entries ... WARNING
-Undocumented code objects:
-  ‘confusionMat’ ‘method’ ‘normalization’ ‘ref’ ‘trained’
-  ‘transformation’
 Undocumented S4 classes:
   ‘MLSeq’
 Undocumented S4 methods:
@@ -223,22 +217,22 @@ See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 * checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... WARNING
-Objects in \usage without \alias in documentation object 'confusionMat-methods':
+Objects in \usage without \alias in documentation object 'confusionMat':
   ‘\S4method{confusionMat}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'method-methods':
+Objects in \usage without \alias in documentation object 'method':
   ‘\S4method{method}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'normalization-methods':
+Objects in \usage without \alias in documentation object 'normalization':
   ‘\S4method{normalization}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'ref-methods':
+Objects in \usage without \alias in documentation object 'ref':
   ‘\S4method{ref}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'trained-methods':
+Objects in \usage without \alias in documentation object 'trained':
   ‘\S4method{trained}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'transformation-methods':
+Objects in \usage without \alias in documentation object 'transformation':
   ‘\S4method{transformation}{MLSeq}’
 
 Functions with \usage entries need to have the appropriate \alias
@@ -257,12 +251,12 @@ Extensions’ manual.
 * checking examples ... OK
 Examples with CPU or elapsed time > 5s
                  user system elapsed
-predictClassify 7.011  0.038   7.067
+predictClassify 6.886  0.043   6.945
 * checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ...
   Running ‘testthat.R’ OK
-* checking for unstated dependencies in vignettes ...
- OK
+
+* checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
 * checking re-building of vignette outputs ... OK
 * DONE
@@ -271,16 +265,10 @@ checking Rd cross-references ... WARNING
 Missing link or links in documentation object 'classify.Rd':
   ‘MLSeq’
 
-Missing link or links in documentation object 'method-methods.Rd':
-  ‘trained’
-
 See section 'Cross-references' in the 'Writing R Extensions' manual.
 
 
 checking for missing documentation entries ... WARNING
-Undocumented code objects:
-  ‘confusionMat’ ‘method’ ‘normalization’ ‘ref’ ‘trained’
-  ‘transformation’
 Undocumented S4 classes:
   ‘MLSeq’
 Undocumented S4 methods:
@@ -296,22 +284,22 @@ See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 
 checking Rd \usage sections ... WARNING
-Objects in \usage without \alias in documentation object 'confusionMat-methods':
+Objects in \usage without \alias in documentation object 'confusionMat':
   ‘\S4method{confusionMat}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'method-methods':
+Objects in \usage without \alias in documentation object 'method':
   ‘\S4method{method}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'normalization-methods':
+Objects in \usage without \alias in documentation object 'normalization':
   ‘\S4method{normalization}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'ref-methods':
+Objects in \usage without \alias in documentation object 'ref':
   ‘\S4method{ref}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'trained-methods':
+Objects in \usage without \alias in documentation object 'trained':
   ‘\S4method{trained}{MLSeq}’
 
-Objects in \usage without \alias in documentation object 'transformation-methods':
+Objects in \usage without \alias in documentation object 'transformation':
   ‘\S4method{transformation}{MLSeq}’
 
 Functions with \usage entries need to have the appropriate \alias
@@ -344,19 +332,19 @@ Rd file 'classify.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'confusionMat-methods.Rd':
+Rd file 'confusionMat.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'method-methods.Rd':
+Rd file 'method.Rd':
 ... 15 lines ...
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'trained-methods.Rd':
+Rd file 'trained.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 
-Rd file 'transformation-methods.Rd':
+Rd file 'transformation.Rd':
   \examples lines wider than 100 characters:
                       control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
 

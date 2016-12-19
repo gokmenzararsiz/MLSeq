@@ -4,9 +4,9 @@
 #' See \code{\link{trained}} for details.
 #'
 #' @docType methods
-#' @name method-methods
-#' @rdname method-methods
-#' @aliases method-methods
+#' @name method
+#' @rdname method
+#' @aliases method
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -55,9 +55,9 @@ setMethod("method", "MLSeq", function(object) object@method)
 #' This slot stores the name of transformation method which is used while transforming the count data (i.e. either "vst" or "voomCPM")
 #'
 #' @docType methods
-#' @name transformation-methods
-#' @rdname transformation-methods
-#' @aliases transformation-methods
+#' @name transformation
+#' @rdname transformation
+#' @aliases transformation
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -103,9 +103,9 @@ setMethod("transformation", "MLSeq", function(object) object@transformation)
 #' This slot stores the name of normalization method which is used while normalizing the count data such as "deseq", "none" or "tmm"
 #'
 #' @docType methods
-#' @name normalization-methods
-#' @rdname normalization-methods
-#' @aliases normalization-methods
+#' @name normalization
+#' @rdname normalization
+#' @aliases normalization
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -157,9 +157,9 @@ setMethod("normalization", "MLSeq", function(object) object@normalization)
 #' caret package. See \code{\link[caret]{confusionMatrix}} for details.
 #'
 #' @docType methods
-#' @name confusionMat-methods
-#' @rdname confusionMat-methods
-#' @aliases confusionMat-methods
+#' @name confusionMat
+#' @rdname confusionMat
+#' @aliases confusionMat
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -210,9 +210,9 @@ setMethod("confusionMat", signature = "MLSeq", function(object) object@confusion
 #' \code{train.default}. See \code{\link[caret]{train.default}} for details.
 #'
 #' @docType methods
-#' @name trained-methods
-#' @rdname trained-methods
-#' @aliases trained-methods
+#' @name trained
+#' @rdname trained
+#' @aliases trained
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -263,9 +263,9 @@ setMethod("trained", signature = "MLSeq", function(object) object@trainedModel)
 #' the user-defined reference category.
 #'
 #' @docType methods
-#' @name ref-methods
-#' @rdname ref-methods
-#' @aliases ref-methods
+#' @name ref
+#' @rdname ref
+#' @aliases ref
 #'
 #' @param object an \code{MLSeq} object.
 #'
