@@ -3,10 +3,16 @@
 #' This slot stores the name of selected model which is used in \code{classify} function. The trained model is stored in slot \code{trainedModel}.
 #' See \code{\link{trained}} for details.
 #'
+#' \code{method} slot stores the name of the classification method as "svm", support vector machines using radial-based kernel function;
+#' "bagsvm", support vector machines with bagging ensemble; "randomForest", random forest algorithm and "cart", classification and
+#' regression trees algorithm.
+#'
 #' @docType methods
 #' @name method
 #' @rdname method
 #' @aliases method
+#'
+#' @usage \S4method{method}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -46,7 +52,7 @@
 #' method(cart)
 #'
 #' @export
-setMethod("method", "MLSeq", function(object) object@method)
+setMethod("method", signature(object = "MLSeq"), function(object) object@method)
 
 
 
@@ -58,6 +64,8 @@ setMethod("method", "MLSeq", function(object) object@method)
 #' @name transformation
 #' @rdname transformation
 #' @aliases transformation
+#'
+#' @usage \S4method{transformation}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -95,7 +103,7 @@ setMethod("method", "MLSeq", function(object) object@method)
 #' transformation(cart)
 #'
 #' @export
-setMethod("transformation", "MLSeq", function(object) object@transformation)
+setMethod("transformation", signature(object = "MLSeq"), function(object) object@transformation)
 
 
 #' Accessors for the 'normalization' slot of an \code{MLSeq} object
@@ -106,6 +114,8 @@ setMethod("transformation", "MLSeq", function(object) object@transformation)
 #' @name normalization
 #' @rdname normalization
 #' @aliases normalization
+#'
+#' @usage \S4method{normalization}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -144,7 +154,7 @@ setMethod("transformation", "MLSeq", function(object) object@transformation)
 #' normalization(cart)
 #'
 #' @export
-setMethod("normalization", "MLSeq", function(object) object@normalization)
+setMethod("normalization", signature(object = "MLSeq"), function(object) object@normalization)
 
 
 
@@ -160,6 +170,8 @@ setMethod("normalization", "MLSeq", function(object) object@normalization)
 #' @name confusionMat
 #' @rdname confusionMat
 #' @aliases confusionMat
+#'
+#' @usage \S4method{confusionMat}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -200,7 +212,7 @@ setMethod("normalization", "MLSeq", function(object) object@normalization)
 #' confusionMat(cart)
 #'
 #' @export
-setMethod("confusionMat", signature = "MLSeq", function(object) object@confusionMat)
+setMethod("confusionMat", signature(object = "MLSeq"), function(object) object@confusionMat)
 
 
 #' Accessors for the 'trainedModel' slot of an \code{MLSeq} object
@@ -213,6 +225,8 @@ setMethod("confusionMat", signature = "MLSeq", function(object) object@confusion
 #' @name trained
 #' @rdname trained
 #' @aliases trained
+#'
+#' @usage \S4method{trained}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -253,7 +267,7 @@ setMethod("confusionMat", signature = "MLSeq", function(object) object@confusion
 #' trained(cart)
 #'
 #' @export
-setMethod("trained", signature = "MLSeq", function(object) object@trainedModel)
+setMethod("trained", signature(object = "MLSeq"), function(object) object@trainedModel)
 
 
 
@@ -266,6 +280,8 @@ setMethod("trained", signature = "MLSeq", function(object) object@trainedModel)
 #' @name ref
 #' @rdname ref
 #' @aliases ref
+#'
+#' @usage \S4method{ref}{MLSeq}(object)
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -304,5 +320,29 @@ setMethod("trained", signature = "MLSeq", function(object) object@trainedModel)
 #' ref(cart)
 #'
 #' @export
-setMethod("ref", "MLSeq", function(object) object@ref)
+setMethod("ref", signature(object = "MLSeq"), function(object) object@ref)
 
+
+setMethod("show",
+          signature(object = "MLSeq"),
+          definition = function(object) {
+            if (dim(confusionMat(object)$table)[1] == 2){
+              cat("\n", sep = " ")
+              cat("  An object of class ", class(object), "\n\n", sep = " ")
+              cat("            Method  : ", method(object), "\n\n")
+              cat("       Accuracy(%)  : ", round(confusionMat(object)$overall[1],4)*100, "\n")
+              cat("    Sensitivity(%)  : ", round(confusionMat(object)$byClass[1],4)*100, "\n")
+              cat("    Specificity(%)  : ", round(confusionMat(object)$byClass[2],4)*100, "\n\n")
+              cat("  Reference Class   : ", ref(object), "\n\n")
+            }
+            else {
+              cat("\n", sep = " ")
+              cat("  An object of class ", class(object), "\n\n", sep = " ")
+              cat("            Method  : ", method(object), "\n\n")
+              cat("       Accuracy(%)  : ", round(confusionMat(object)$overall[1],4)*100, "\n")
+              cat("    Sensitivity(%)  : ", round(confusionMat(object)$byClass[1,1],4)*100, "\n")
+              cat("    Specificity(%)  : ", round(confusionMat(object)$byClass[1,2],4)*100, "\n\n")
+              cat("  Reference Class   : ", ref(object), "\n\n")
+              invisible(NULL)
+            }
+          })

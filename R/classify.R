@@ -2,8 +2,6 @@
 #'
 #' This package applies several machine learning methods, including SVM, bagSVM, Random Forest and CART, to RNA-Seq data.
 #'
-#' @references
-#'
 #' @author Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
 #'
 #' -----------------
@@ -46,6 +44,7 @@ NULL
 #' data(cervical)
 #'
 NULL
+
 
 #' Fitting classification models to sequencing data
 #'
@@ -111,11 +110,6 @@ NULL
 #' Robinson MD, Oshlack A (2010). A scaling normalization method for differential expression analysis of RNA-Seq data. Genome Biology, 11:R25, doi:10.1186/gb-2010-11-3-r25
 #'
 #' @keywords RNA-seq classification
-#'
-#' @import BiocGenerics BiocParallel S4Vectors IRanges GenomicRanges SummarizedExperiment Biobase Rcpp methods
-#' @importFrom caret train confusionMatrix bagControl predict.train trainControl
-#' @importFrom stats xtabs model.matrix predict relevel
-#' @exportClass MLSeq
 #'
 #' @seealso \code{\link{predictClassify}}, \code{\link[caret]{train}}, \code{\link[caret]{trainControl}}
 #'

@@ -8,12 +8,16 @@ setOldClass(c("confusionMatrix","train"))
 #' of objects is created as a result of \code{classify} function of \code{MLSeq} package.
 #' It is then used in \code{predictClassify} function for predicting the class labels of new samples.
 #'
-#' @slot method stores the name of used classification method in the classification model
-#' @slot transformation stores the name of used transformation method in the classification model
-#' @slot normalization stores the name of used normalization method in the classification model
-#' @slot confusionMat stores the information of classification performance results
-#' @slot trained stores the information about training process and model parameters that used in the corresponding model
-#' @slot ref stores user defined reference class
+#' @section Slots:
+#' \describe{
+#' \item{\code{method}:}{stores the name of used classification method in the classification model}
+#' \item{\code{transformation}:}{stores the name of used transformation method in the classification model}
+#' \item{\code{normalization}:}{stores the name of used normalization method in the classification model}
+#' \item{\code{confusionMat}:}{stores the information of classification performance results}
+#' \item{\code{trained}:}{stores the information about training process and model parameters that used in the corresponding model}
+#' \item{\code{ref}:}{stores user defined reference class}
+#' }
+
 #'
 #' @note An \code{MLSeq} class stores the results of \code{classify} function and offers further slots that are populated
 #' during the analysis. The slot \code{confusionMat} stores the information of classification performance results. These
@@ -25,9 +29,10 @@ setOldClass(c("confusionMatrix","train"))
 #' @author Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
 #'
 #' @docType class
-#' @name MLSeq-class
-#' @rdname MLSeq-class
+#' @name MLSeq
+#' @rdname MLSeq
 #' @aliases MLSeq MLSeq-class
+#' @exportClass MLSeq
 #'
 #' @export
 setClass("MLSeq",
@@ -39,35 +44,6 @@ setClass("MLSeq",
 					      ref = "character"),
 			prototype = prototype(confusionMat=structure(list(), class="confusionMatrix"),
 			                      trainedModel = structure(list(), class="train")))
-
-
-setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
-
-
-
-setMethod("show",
-signature = "MLSeq",
-definition = function(object) {
-    if (dim(confusionMat(object)$table)[1] == 2){
-      cat("\n", sep = " ")
-      cat("  An object of class ", class(object), "\n\n", sep = " ")
-      cat("            Method  : ", method(object), "\n\n")
-      cat("       Accuracy(%)  : ", round(confusionMat(object)$overall[1],4)*100, "\n")
-      cat("    Sensitivity(%)  : ", round(confusionMat(object)$byClass[1],4)*100, "\n")
-      cat("    Specificity(%)  : ", round(confusionMat(object)$byClass[2],4)*100, "\n\n")
-      cat("  Reference Class   : ", ref(object), "\n\n")
-    }
-    else {
-      cat("\n", sep = " ")
-      cat("  An object of class ", class(object), "\n\n", sep = " ")
-      cat("            Method  : ", method(object), "\n\n")
-      cat("       Accuracy(%)  : ", round(confusionMat(object)$overall[1],4)*100, "\n")
-      cat("    Sensitivity(%)  : ", round(confusionMat(object)$byClass[1,1],4)*100, "\n")
-      cat("    Specificity(%)  : ", round(confusionMat(object)$byClass[1,2],4)*100, "\n\n")
-      cat("  Reference Class   : ", ref(object), "\n\n")
-      invisible(NULL)
-    }
-})
 
 
 setValidity("MLSeq", function( object ) {

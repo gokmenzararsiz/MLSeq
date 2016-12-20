@@ -20,8 +20,5 @@ Dincer Goksuluk \email{dincer.goksuluk@hacettepe.edu.tr}
 
 Selcuk Korkmaz \email{selcukorkmaz@hotmail.com}
 }
-\references{
-
-}
 \keyword{package}
 

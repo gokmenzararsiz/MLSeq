@@ -1,3 +1,7 @@
+# #' @rdname MLSeq
+# #' @export
+# setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
+
 #' @rdname method
 #' @export
 setGeneric("method", function(object) standardGeneric("method"))

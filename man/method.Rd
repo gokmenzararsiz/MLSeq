@@ -16,6 +16,11 @@ method(object)
 This slot stores the name of selected model which is used in \code{classify} function. The trained model is stored in slot \code{trainedModel}.
 See \code{\link{trained}} for details.
 }
+\details{
+\code{method} slot stores the name of the classification method as "svm", support vector machines using radial-based kernel function;
+"bagsvm", support vector machines with bagging ensemble; "randomForest", random forest algorithm and "cart", classification and
+regression trees algorithm.
+}
 \examples{
 
 data(cervical)
