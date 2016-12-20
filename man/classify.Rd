@@ -11,9 +11,9 @@ classify(data, method = c("svm", "bagsvm", "randomforest", "cart"),
 }
 \arguments{
 \item{data}{a \code{DESeqDataSet} object, see the constructor functions
-\code{\link{DESeqDataSet}},
-\code{\link{DESeqDataSetFromMatrix}},
-\code{\link{DESeqDataSetFromHTSeqCount}} in DESeq2 package.}
+\code{\link[DESeq2]{DESeqDataSet}},
+\code{\link[DESeq2]{DESeqDataSetFromMatrix}},
+\code{\link[DESeq2]{DESeqDataSetFromHTSeqCount}} in DESeq2 package.}
 
 \item{method}{a character string indicating the name of classification method. There are four methods available to perform classification:
 \itemize{
@@ -45,7 +45,7 @@ first category of class labels is used as reference.}
 \item{\dots}{optional arguments for \code{train(...)} function from \code{caret} package.}
 }
 \value{
-an \code{\link{MLSeq}} object for trained model.
+an \code{MLSeq} object for trained model.
 }
 \description{
 This function fits classification algorithms to sequencing data and measures model performances using various statistics
@@ -94,14 +94,16 @@ data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 ## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
 cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-                 transformation = "vst", ref = "T",
-                 control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+          transformation = "vst", ref = "T",
+          control = trainControl(method = "repeatedcv", number = 5,
+                                 repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
 # rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq",
-#  transformation = "vst", ref = "T",
-#  control = trainControl(method = "repeatedcv", number = 5, repeats = 3, classProbs = TRUE))
+#         transformation = "vst", ref = "T",
+#         control = trainControl(method = "repeatedcv", number = 5,
+#                                repeats = 3, classProbs = TRUE))
 # rf
 
 }
@@ -109,17 +111,21 @@ cart
 Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
 }
 \references{
-Kuhn M. (2008). Building predictive models in R using the caret package. Journal of Statistical Software, (\url{http://www.jstatsoft.org/v28/i05/})
+Kuhn M. (2008). Building predictive models in R using the caret package. Journal of Statistical Software,
+(\url{http://www.jstatsoft.org/v28/i05/})
 
 Anders S. Huber W. (2010). Differential expression analysis for sequence count data. Genome Biology, 11:R106
 
 Witten DM. (2011). Classification and clustering of sequencing data using a poisson model. The Annals of Applied Statistics, 5(4), 2493:2518
 
-Charity WL. et al. (2014) Voom: precision weights unlock linear model analysis tools for RNA-Seq read counts, Genome Biology, 15:R29, doi:10.1186/gb-2014-15-2-r29
+Charity WL. et al. (2014) Voom: precision weights unlock linear model analysis tools for RNA-Seq read counts, Genome Biology,
+15:R29, doi:10.1186/gb-2014-15-2-r29
 
-Witten D. et al. (2010) Ultra-high throughput sequencing-based small RNA discovery and discrete statistical biomarker analysis in a collection of cervical tumours and matched controls. BMC Biology, 8:58
+Witten D. et al. (2010) Ultra-high throughput sequencing-based small RNA discovery and discrete statistical biomarker analysis
+in a collection of cervical tumours and matched controls. BMC Biology, 8:58
 
-Robinson MD, Oshlack A (2010). A scaling normalization method for differential expression analysis of RNA-Seq data. Genome Biology, 11:R25, doi:10.1186/gb-2010-11-3-r25
+Robinson MD, Oshlack A (2010). A scaling normalization method for differential expression analysis of RNA-Seq data.
+Genome Biology, 11:R25, doi:10.1186/gb-2010-11-3-r25
 }
 \seealso{
 \code{\link{predictClassify}}, \code{\link[caret]{train}}, \code{\link[caret]{trainControl}}

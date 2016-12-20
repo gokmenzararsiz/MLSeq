@@ -9,15 +9,15 @@ setOldClass(c("confusionMatrix","train"))
 #' It is then used in \code{predictClassify} function for predicting the class labels of new samples.
 #'
 #' @section Slots:
+#'
 #' \describe{
-#' \item{\code{method}:}{stores the name of used classification method in the classification model}
-#' \item{\code{transformation}:}{stores the name of used transformation method in the classification model}
-#' \item{\code{normalization}:}{stores the name of used normalization method in the classification model}
-#' \item{\code{confusionMat}:}{stores the information of classification performance results}
-#' \item{\code{trained}:}{stores the information about training process and model parameters that used in the corresponding model}
-#' \item{\code{ref}:}{stores user defined reference class}
+#'   \item{\code{method}:}{stores the name of used classification method in the classification model}
+#'   \item{\code{transformation}:}{stores the name of used transformation method in the classification model}
+#'   \item{\code{normalization}:}{stores the name of used normalization method in the classification model}
+#'   \item{\code{confusionMat}:}{stores the information of classification performance results}
+#'   \item{\code{trainedModel}:}{stores the information about training process and model parameters that used in the corresponding model}
+#'   \item{\code{ref}:}{stores user defined reference class}
 #' }
-
 #'
 #' @note An \code{MLSeq} class stores the results of \code{classify} function and offers further slots that are populated
 #' during the analysis. The slot \code{confusionMat} stores the information of classification performance results. These
@@ -29,12 +29,10 @@ setOldClass(c("confusionMatrix","train"))
 #' @author Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
 #'
 #' @docType class
-#' @name MLSeq
-#' @rdname MLSeq
-#' @aliases MLSeq MLSeq-class
+#' @name MLSeq-class
+#' @rdname MLSeq-class
+#' @aliases MLSeq-class
 #' @exportClass MLSeq
-#'
-#' @export
 setClass("MLSeq",
 			slots = c(method = "character",
 					      transformation = "character",
