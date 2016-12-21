@@ -45,6 +45,7 @@
 #' @seealso \code{\link{classify}}, \code{\link[caret]{train}}, \code{\link[caret]{trainControl}}
 #'
 #' @examples
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.

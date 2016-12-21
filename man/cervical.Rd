@@ -14,7 +14,6 @@ samples and these two groups are treated as two separete classes.
 }
 \examples{
 data(cervical)
-
 }
 \author{
 Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk

@@ -20,7 +20,7 @@ Any further request using caret functions is available for \code{trainedModel} s
 same class as the returned object from \code{train.default}. See \code{\link[caret]{train.default}} for details.
 }
 \examples{
-
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

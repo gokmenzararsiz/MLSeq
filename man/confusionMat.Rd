@@ -23,7 +23,7 @@ and corresponding statistics such as accuracy rate, sensitivity, specifity, etc.
 is in \code{confusionMatrix} class of caret package. See \code{\link[caret]{confusionMatrix}} for details.
 }
 \examples{
-
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

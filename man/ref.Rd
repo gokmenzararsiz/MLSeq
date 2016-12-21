@@ -19,7 +19,7 @@ This slot stores the information about reference category. Confusion matrix and 
 the user-defined reference category.
 }
 \examples{
-
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

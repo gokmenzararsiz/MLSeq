@@ -66,6 +66,7 @@ subsets and tested in the remaining subsets. MLSeq package also has the repeat o
 Giving a number of m repeats, cross validation concept is applied m times.
 }
 \examples{
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

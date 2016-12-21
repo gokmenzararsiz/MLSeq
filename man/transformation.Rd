@@ -19,6 +19,7 @@ This slot stores the name of transformation method which is used while transform
 count data (i.e. either "vst" or "voomCPM")
 }
 \examples{
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

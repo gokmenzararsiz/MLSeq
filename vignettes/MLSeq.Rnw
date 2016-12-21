@@ -27,6 +27,7 @@
 
 <<include=FALSE>>=
 library(knitr)
+library(DESeq2)
 @
 
 <<echo=FALSE, message=FALSE, warning=FALSE>>=

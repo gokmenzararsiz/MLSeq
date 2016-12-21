@@ -7,39 +7,19 @@ Author: Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet
     Parug Duru, Turgay Unver, Ahmet Ozturk
 Maintainer: Gokmen Zararsiz <gokmenzararsiz@hotmail.com>
 Depends:
-    R (>= 3.0.0),
-    caret,
-    DESeq2,
-    Biobase,
-    limma,
-    randomForest,
-    edgeR
+    caret
 VignetteBuilder: knitr
 Suggests:
     knitr,
     e1071,
     kernlab,
-    earth,
-    ellipse,
-    fastICA,
-    gam,
-    ipred,
-    klaR,
-    MASS,
-    mda,
-    mgcv,
-    mlbench,
-    nnet,
-    party,
-    pls,
-    pROC,
-    proxy,
-    RANN,
-    spls,
-    affy,
     testthat
 Imports:
-    methods
+    methods,
+    DESeq2,
+    edgeR,
+    limma,
+    Biobase
 Collate:
     class.R
     generics.R

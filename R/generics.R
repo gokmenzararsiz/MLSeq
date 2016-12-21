@@ -23,7 +23,7 @@
 #' @seealso \code{\link{trained}}
 #'
 #' @examples
-#'
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' data <- cervical[c(1:150),]  # a subset of cervical data with first 150 features.
@@ -73,6 +73,7 @@ setGeneric("method", function(object) standardGeneric("method"))
 #' @author Gokmen Zararsiz
 #'
 #' @examples
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.
@@ -124,7 +125,7 @@ setGeneric("transformation", function(object) standardGeneric("transformation"))
 #' @author Gokmen Zararsiz
 #'
 #' @examples
-#'
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.
@@ -183,7 +184,7 @@ setGeneric("normalization", function(object) standardGeneric("normalization"))
 #' @seealso \code{\link[caret]{confusionMatrix}}
 #'
 #' @examples
-#'
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.
@@ -240,7 +241,7 @@ setGeneric("confusionMat", function(object) standardGeneric("confusionMat"))
 #' @seealso \code{\link[caret]{train.default}}
 #'
 #' @examples
-#'
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.
@@ -294,7 +295,7 @@ setGeneric("trained", function(object) standardGeneric("trained"))
 #' @author Gokmen Zararsiz
 #'
 #' @examples
-#'
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.

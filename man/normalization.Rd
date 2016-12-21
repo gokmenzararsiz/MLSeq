@@ -18,7 +18,7 @@ normalization(object)
 This slot stores the name of normalization method which is used while normalizing the count data such as "deseq", "none" or "tmm"
 }
 \examples{
-
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.

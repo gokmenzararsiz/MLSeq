@@ -25,7 +25,7 @@ radial-based kernel function; "bagsvm", support vector machines with bagging ens
 random forest algorithm and "cart", classification and regression trees algorithm.
 }
 \examples{
-
+library(DESeq2)
 data(cervical)
 
 data <- cervical[c(1:150),]  # a subset of cervical data with first 150 features.

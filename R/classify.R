@@ -50,7 +50,6 @@ NULL
 #'
 #' @examples
 #' data(cervical)
-#'
 NULL
 
 
@@ -126,6 +125,7 @@ NULL
 #' @seealso \code{\link{predictClassify}}, \code{\link[caret]{train}}, \code{\link[caret]{trainControl}}
 #'
 #' @examples
+#' library(DESeq2)
 #' data(cervical)
 #'
 #' # a subset of cervical data with first 150 features.
@@ -166,12 +166,12 @@ NULL
 #' #                                repeats = 3, classProbs = TRUE))
 #' # rf
 #'
-#' @importFrom caret train trainControl confusionMatrix bagControl
+#' @import methods DESeq2 Biobase
+#'
 #' @importFrom edgeR DGEList calcNormFactors
 #' @importFrom stats model.matrix predict relevel xtabs
 #' @importFrom Biobase ExpressionSet exprs
 #' @importFrom limma voom
-#' @importFrom DESeq2 counts estimateSizeFactors estimateDispersions getVarianceStabilizedData plotMA DESeqDataSetFromMatrix DESeqDataSet
 #'
 #' @export
 classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),

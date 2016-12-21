@@ -34,6 +34,7 @@ extracted as raw class labels.In order to extract estimated class probabilities,
 }
 }
 \examples{
+library(DESeq2)
 data(cervical)
 
 # a subset of cervical data with first 150 features.
