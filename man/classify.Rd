@@ -17,10 +17,10 @@ classify(data, method = c("svm", "bagsvm", "randomforest", "cart"),
 
 \item{method}{a character string indicating the name of classification method. There are four methods available to perform classification:
 \itemize{
-\code{svm}: support vector machines using radial-based kernel function
-\code{bagsvm}: support vector machines with bagging ensemble
-\code{randomForest}: random forest algorithm
-\code{cart}: classification and regression trees algorithm
+\item \code{svm}: support vector machines using radial-based kernel function
+\item \code{bagsvm}: support vector machines with bagging ensemble
+\item \code{randomForest}: random forest algorithm
+\item \code{cart}: classification and regression trees algorithm
 }}
 
 \item{normalize}{a character string indicating the name of normalization method for count data.
@@ -89,20 +89,20 @@ classtr <- data.frame(condition=class[-ind, ])
 
 # train set in S4 class
 data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-                                       colData = classtr, formula(~ condition))
+                   colData = classtr, formula(~ condition))
 data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
 ## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
-cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-          transformation = "vst", ref = "T",
+cart <- classify(data = data.trainS4, method = "cart",
+          normalize = "deseq", transformation = "vst", ref = "T",
           control = trainControl(method = "repeatedcv", number = 5,
                                  repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
-# rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq",
-#         transformation = "vst", ref = "T",
+# rf <- classify(data = data.trainS4, method = "randomforest",
+#         normalize = "deseq", transformation = "vst", ref = "T",
 #         control = trainControl(method = "repeatedcv", number = 5,
 #                                repeats = 3, classProbs = TRUE))
 # rf

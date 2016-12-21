@@ -57,7 +57,7 @@ classtr <- data.frame(condition = class[-ind, ])
 
 # train set in S4 class
 data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-                                       colData = classtr, formula(~ condition))
+                  colData = classtr, formula(~ condition))
 data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
 # test set
@@ -67,20 +67,20 @@ classts <- data.frame(condition=class[ind, ])
 
 # test set in S4
 data.testS4 <- DESeqDataSetFromMatrix(countData = data.test,
-                                      colData = classts, formula(~ condition))
+                 colData = classts, formula(~ condition))
 data.testS4 <- DESeq(data.testS4, fitType = "local")
 
 ## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
-cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-          transformation = "vst", ref = "T",
+cart <- classify(data = data.trainS4, method = "cart",
+          transformation = "vst", ref = "T", normalize = "deseq",
           control = trainControl(method = "repeatedcv", number = 5,
                                  repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
-rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq",
-        transformation = "vst", ref = "T",
+rf <- classify(data = data.trainS4, method = "randomforest",
+        transformation = "vst", ref = "T", normalize = "deseq",
         control = trainControl(method = "repeatedcv", number = 5,
                                repeats = 3, classProbs = TRUE))
 rf

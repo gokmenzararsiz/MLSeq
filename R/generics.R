@@ -26,14 +26,17 @@
 #' library(DESeq2)
 #' data(cervical)
 #'
-#' data <- cervical[c(1:150),]  # a subset of cervical data with first 150 features.
+#' # a subset of cervical data with first 150 features.
+#' data <- cervical[c(1:150),]
 #'
-#' class <- data.frame(condition=factor(rep(c("N","T"), c(29,29))))# defining sample classes.
+#' # defining sample classes.
+#' class <- data.frame(condition=factor(rep(c("N","T"), c(29,29))))
 #'
 #' n <- ncol(data)  # number of samples
 #' p <- nrow(data)  # number of features
 #'
-#' nTest <- ceiling(n*0.2)  # number of samples for test set (20% test, 80% train).
+#' # number of samples for test set (20% test, 80% train).
+#' nTest <- ceiling(n*0.2)
 #' ind <- sample(n, nTest, FALSE)
 #'
 #' # train set
@@ -43,12 +46,12 @@
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
@@ -96,12 +99,12 @@ setGeneric("method", function(object) standardGeneric("method"))
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
@@ -113,7 +116,8 @@ setGeneric("transformation", function(object) standardGeneric("transformation"))
 
 #' Accessors for the 'normalization' slot of an \code{MLSeq} object
 #'
-#' This slot stores the name of normalization method which is used while normalizing the count data such as "deseq", "none" or "tmm"
+#' This slot stores the name of normalization method which is used while normalizing the count data such
+#' as "deseq", "none" or "tmm"
 #'
 #' @docType methods
 #' @name normalization-methods
@@ -148,12 +152,12 @@ setGeneric("transformation", function(object) standardGeneric("transformation"))
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
@@ -207,12 +211,12 @@ setGeneric("normalization", function(object) standardGeneric("normalization"))
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
@@ -264,12 +268,12 @@ setGeneric("confusionMat", function(object) standardGeneric("confusionMat"))
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
@@ -318,12 +322,12 @@ setGeneric("trained", function(object) standardGeneric("trained"))
 #'
 #' # train set in S4 class
 #' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-#'                                        colData = classtr, formula(~ condition))
+#'                   colData = classtr, formula(~ condition))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
-#'           transformation = "vst", ref = "T",
+#' cart <- classify(data = data.trainS4, method = "cart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #'
