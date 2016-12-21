@@ -1,4 +1,3 @@
-
 # setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
 
 #' Accessors for the 'method' slot of an \code{MLSeq} object
@@ -15,6 +14,7 @@
 #' @name method-methods
 #' @rdname method
 #' @aliases method
+#' @include class.R
 #'
 #' @param object an \code{MLSeq} object.
 #'

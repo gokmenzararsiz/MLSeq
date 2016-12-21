@@ -1,4 +1,5 @@
 #' @rdname method
+#' @include generics.R
 #' @export
 setMethod("method", signature(object = "MLSeq"), function(object) object@method)
 
