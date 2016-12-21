@@ -172,6 +172,7 @@ NULL
 #' @importFrom stats model.matrix predict relevel xtabs
 #' @importFrom Biobase ExpressionSet exprs
 #' @importFrom limma voom
+#' @importFrom caret bagControl confusionMatrix svmBag trainControl bag
 #'
 #' @export
 classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),
