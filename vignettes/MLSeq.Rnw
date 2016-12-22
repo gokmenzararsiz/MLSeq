@@ -85,7 +85,7 @@ dim(cervical)
 
 First 29 columns of the data contain the miRNA mapped counts of non-tumor samples, while the last 29 columns contain the count information of tumor samples. We need to create a class label information in order to apply classification models.
 
-<<chunk5, echo=FALSE>>=
+<<chunk5, eval = FALSE, echo=FALSE>>=
 options(width = 63)
 @
 
@@ -133,14 +133,14 @@ We can now transform our training and test data to \texttt{DESeqDataSet} instanc
 
 <<chunk12, message=FALSE>>=
 data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
-																  colData = classtr, formula(~condition))
+  colData = classtr, formula(~condition))
 data.trainS4 <- DESeq(data.trainS4, fitType="local")
 data.trainS4
 @
 
 <<chunk13, message=FALSE>>=
 data.testS4 <- DESeqDataSetFromMatrix(countData = data.test,
-																 colData = classts, formula(~condition))
+  colData = classts, formula(~condition))
 data.testS4 <- DESeq(data.testS4, fitType = "local")
 data.testS4
 @
