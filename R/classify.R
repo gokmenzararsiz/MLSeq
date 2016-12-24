@@ -90,7 +90,11 @@ NULL
 #' \item \code{tmm}: Trimmed mean of \code{M} values.
 #' }
 #' @param transformation a character string indicating the normalization method. Note that transformation method is applied after normalization.
-#' Available options are \code{vst}: variance stabilizing transformation and \code{voomCPM}: voom transformation (log of counts-per-million).
+#' Available options are:
+#' \itemize{
+#' \item \code{vst}: variance stabilizing transformation through \code{DESeq2} pakage
+#' \item \code{voomCPM}: voom transformation (log of counts-per-million) through \code{limma} package.
+#' }
 #' @param control a list including all the control parameters passed to model training process. This arguement is a wrapper for the
 #' arguement \code{trControl} from caret package. See \bold{?trainControl} for details.
 #' @param B an integer. It is the number of bootstrap samples for method \code{bagsvm}. Default is 100.
@@ -175,10 +179,9 @@ NULL
 #' @importFrom caret bagControl confusionMatrix svmBag trainControl bag
 #'
 #' @export
-classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),
-                      normalize = c("deseq", "none", "tmm"), transformation = c("vst", "voomCPM"),
-                      control = trainControl(method = "repeatedcv", number = 5, repeats = 10),
-                      B = 100, ref = NULL, ...){
+classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tmm"),
+                      transformation = c("vst", "voomCPM"), B = 100, ref = NULL,
+                      control = trainControl(method = "repeatedcv", number = 5, repeats = 10), ...){
   if (!is.null(ref)) {
     if (!is.character(ref))
       stop("Reference class should be \"character\"")
@@ -192,7 +195,10 @@ classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),
   if (is.null(method)) {
     stop("Classification method is not specified.")
   }
-  method = match.arg(method)
+
+  ## Methods should be one of available methods in caret's "train" function.
+  ## See names(getModelInfo()) for a list of available methods.
+  #method = match.arg(method)
   normalize = match.arg(normalize)
   transformation = match.arg(transformation)
   if ((normalize == "tmm" & transformation == "vst")) {
@@ -247,24 +253,31 @@ classify <- function (data, method = c("svm", "bagsvm", "randomforest", "cart"),
       conditions = as.factor(dataexp[, length(dataexp)])
     }
   }
-  if (method == "svm") {
-    train <- train(counts, conditions, method = "svmRadial",
-                   trControl = ctrl, ...)
-  }
-  if (method == "bagsvm") {
-    train <- train(counts, conditions, method = "bag", B = B,
-                   bagControl = bagControl(fit = svmBag$fit, predict = svmBag$pred,
-                                           aggregate = svmBag$aggregate), trControl = ctrl,
-                   ...)
-  }
-  if (method == "randomforest") {
-    train <- train(counts, conditions, method = "rf", trControl = ctrl,
-                   ...)
-  }
-  if (method == "cart") {
-    train <- train(counts, conditions, method = "rpart",
-                   trControl = ctrl, ...)
-  }
+
+  ## B parametresi sadece bagging olan modellerde kullanılmalı. Diğer modellerde de argüman olarak geldiği için
+  ## fonksiyonlar unused arguement hatası veriyor. B parametresinin kullanılacağı modeller için ayrıca bir blok yazılacak.
+  ## Bu modellerin listesine availableMethods() ile ulaşılabilir.
+  train <- train(counts, conditions, method = method, B = B, trControl = ctrl, ...)
+
+  # if (method == "svm") {
+  #   train <- train(counts, conditions, method = "svmRadial",
+  #                  trControl = ctrl, ...)
+  # }
+  # if (method == "bagsvm") {
+  #   train <- train(counts, conditions, method = "bag", B = B,
+  #                  bagControl = bagControl(fit = svmBag$fit, predict = svmBag$pred,
+  #                                          aggregate = svmBag$aggregate), trControl = ctrl,
+  #                  ...)
+  # }
+  # if (method == "randomforest") {
+  #   train <- train(counts, conditions, method = "rf", trControl = ctrl,
+  #                  ...)
+  # }
+  # if (method == "cart") {
+  #   train <- train(counts, conditions, method = "rpart",
+  #                  trControl = ctrl, ...)
+  # }
+
   train.pred = predict(train)
   tbl.trn = table(Predicted = train.pred, Actual = org.classes)
   confM = confusionMatrix(tbl.trn, reference = ref)

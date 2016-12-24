@@ -40,13 +40,13 @@ setClass("MLSeq",
 					      confusionMat = "confusionMatrix",
 					      trainedModel = "train",
 					      ref = "character"),
-			prototype = prototype(confusionMat=structure(list(), class="confusionMatrix"),
-			                      trainedModel = structure(list(), class="train")))
+			prototype = prototype(confusionMat = structure(list(), class = "confusionMatrix"),
+			                      trainedModel = structure(list(), class = "train")))
 
 
 setValidity("MLSeq", function( object ) {
-    if (!(method(object)  %in% c("svm", "bagsvm", "randomforest", "cart")))
-    return("Error: 'method' slot must be in one of the following methods: \"svm\", \"bagsvm\", \"randomforest\", \"cart\" ")
+    # if (!(method(object)  %in% c("svm", "bagsvm", "randomforest", "cart")))
+    # return("Error: 'method' slot must be in one of the following methods: \"svm\", \"bagsvm\", \"randomforest\", \"cart\" ")
 
     if (!(normalization(object)  %in% c("deseq", "none", "tmm")))
     return("Error: 'normalization' slot must be in one of the following: \"deseq\", \"none\", \"tmm\" ")

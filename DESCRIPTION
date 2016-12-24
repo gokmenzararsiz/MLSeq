@@ -28,6 +28,7 @@ Packaged: 2016-11-24 20:25:25 UTC; biocbuild
 NeedsCompilation: no
 RoxygenNote: 5.0.1
 Collate:
+    'additionalFunctions.R'
     'class.R'
     'classify.R'
     'generics.R'

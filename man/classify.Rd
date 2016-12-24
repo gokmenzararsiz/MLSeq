@@ -4,10 +4,10 @@
 \alias{classify}
 \title{Fitting classification models to sequencing data}
 \usage{
-classify(data, method = c("svm", "bagsvm", "randomforest", "cart"),
-  normalize = c("deseq", "none", "tmm"), transformation = c("vst",
-  "voomCPM"), control = trainControl(method = "repeatedcv", number = 5,
-  repeats = 10), B = 100, ref = NULL, ...)
+classify(data, method = "rpart", normalize = c("deseq", "none", "tmm"),
+  transformation = c("vst", "voomCPM"), B = 100, ref = NULL,
+  control = trainControl(method = "repeatedcv", number = 5, repeats = 10),
+  ...)
 }
 \arguments{
 \item{data}{a \code{DESeqDataSet} object, see the constructor functions
@@ -32,15 +32,19 @@ Available options are:
 }}
 
 \item{transformation}{a character string indicating the normalization method. Note that transformation method is applied after normalization.
-Available options are \code{vst}: variance stabilizing transformation and \code{voomCPM}: voom transformation (log of counts-per-million).}
-
-\item{control}{a list including all the control parameters passed to model training process. This arguement is a wrapper for the
-arguement \code{trControl} from caret package. See \bold{?trainControl} for details.}
+Available options are:
+\itemize{
+\item \code{vst}: variance stabilizing transformation through \code{DESeq2} pakage
+\item \code{voomCPM}: voom transformation (log of counts-per-million) through \code{limma} package.
+}}
 
 \item{B}{an integer. It is the number of bootstrap samples for method \code{bagsvm}. Default is 100.}
 
 \item{ref}{a character string indicating the user defined reference class. Default is \code{NULL}. If NULL is selected,
 first category of class labels is used as reference.}
+
+\item{control}{a list including all the control parameters passed to model training process. This arguement is a wrapper for the
+arguement \code{trControl} from caret package. See \bold{?trainControl} for details.}
 
 \item{\dots}{optional arguments for \code{train(...)} function from \code{caret} package.}
 }
