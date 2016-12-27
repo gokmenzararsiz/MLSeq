@@ -166,7 +166,7 @@ One essential goal of classification analysis is to build a generalizable model 
 Now, we can train our data, data.trainS4, using one of the classifiers among SVM, bagSVM, RF and CART algorithms. To build a classification model, we simply use the \texttt{classify} function. First, let us use SVM classifier and choose ``deseq'' as normalization method, ``vst'' as transformation method and assign this model in ``svm" object. We also define the number of cross validation fold as ``number = 5'' and number of repeats as ``repeats = 3'' for model validation. The reference class is considered as ``T'' via \texttt{ref = "T"}.
 
 <<chunk14, message = FALSE>>=
-cart <- classify(data = data.trainS4, method = "cart", normalize = "deseq",
+cart <- classify(data = data.trainS4, method = "rpart", normalize = "deseq",
 	transformation = "vst", ref = "T", tuneLength = 10,
 	control = trainControl(method = "repeatedcv", number = 5, repeats = 3))
 cart
@@ -184,7 +184,7 @@ trained(cart)
 Now, let us train another model with same parameters using RF classifier and save this model in ``rf" object.
 
 <<chunk16, message = FALSE>>=
-rf <- classify(data = data.trainS4, method = "randomforest", normalize = "deseq",
+rf <- classify(data = data.trainS4, method = "rf", normalize = "deseq",
 	transformation = "vst", ref = "T",
 	control = trainControl(method = "repeatedcv", number = 5, repeats = 3))
 rf

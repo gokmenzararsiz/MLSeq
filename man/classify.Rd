@@ -5,7 +5,7 @@
 \title{Fitting classification models to sequencing data}
 \usage{
 classify(data, method = "rpart", normalize = c("deseq", "none", "tmm"),
-  transformation = c("vst", "voomCPM"), B = 100, ref = NULL,
+  transformation = c("vst", "voomCPM"), B = 25, ref = NULL,
   control = trainControl(method = "repeatedcv", number = 5, repeats = 10),
   ...)
 }
@@ -15,13 +15,7 @@ classify(data, method = "rpart", normalize = c("deseq", "none", "tmm"),
 \code{\link[DESeq2]{DESeqDataSetFromMatrix}},
 \code{\link[DESeq2]{DESeqDataSetFromHTSeqCount}} in DESeq2 package.}
 
-\item{method}{a character string indicating the name of classification method. There are four methods available to perform classification:
-\itemize{
-\item \code{svm}: support vector machines using radial-based kernel function
-\item \code{bagsvm}: support vector machines with bagging ensemble
-\item \code{randomForest}: random forest algorithm
-\item \code{cart}: classification and regression trees algorithm
-}}
+\item{method}{a character string indicating the name of classification method. Run \code{availableMethods()} for a list of available methods.}
 
 \item{normalize}{a character string indicating the name of normalization method for count data.
 Available options are:
@@ -38,7 +32,7 @@ Available options are:
 \item \code{voomCPM}: voom transformation (log of counts-per-million) through \code{limma} package.
 }}
 
-\item{B}{an integer. It is the number of bootstrap samples for method \code{bagsvm}. Default is 100.}
+\item{B}{an integer. It is the number of bootstrap samples for method \code{"bag"}. Default is 25.}
 
 \item{ref}{a character string indicating the user defined reference class. Default is \code{NULL}. If NULL is selected,
 first category of class labels is used as reference.}
@@ -98,14 +92,14 @@ data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
 ## Number of repeats (repeats) might change model accuracies ##
 # Classification and Regression Tree (CART) Classification
-cart <- classify(data = data.trainS4, method = "cart",
+cart <- classify(data = data.trainS4, method = "rpart",
           normalize = "deseq", transformation = "vst", ref = "T",
           control = trainControl(method = "repeatedcv", number = 5,
                                  repeats = 3, classProbs = TRUE))
 cart
 
 # Random Forest (RF) Classification
-# rf <- classify(data = data.trainS4, method = "randomforest",
+# rf <- classify(data = data.trainS4, method = "rf",
 #         normalize = "deseq", transformation = "vst", ref = "T",
 #         control = trainControl(method = "repeatedcv", number = 5,
 #                                repeats = 3, classProbs = TRUE))

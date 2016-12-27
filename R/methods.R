@@ -1,5 +1,9 @@
-#' @rdname method
+#' @rdname input
 #' @include generics.R
+#' @export
+setMethod("input", signature(object = "MLSeq"), function(object) object@inputObject)
+
+#' @rdname method
 #' @export
 setMethod("method", signature(object = "MLSeq"), function(object) object@method)
 

@@ -24,6 +24,7 @@ Lastly, the slot \code{trained} stores the information about training process an
 
 
 \describe{
+  \item{\code{inputObject}:}{stores the data in \code{\link[DESeq2]{DESeqDataSet}} object.}
   \item{\code{method}:}{stores the name of used classification method in the classification model}
   \item{\code{transformation}:}{stores the name of used transformation method in the classification model}
   \item{\code{normalization}:}{stores the name of used normalization method in the classification model}

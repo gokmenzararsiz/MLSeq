@@ -1,6 +1,13 @@
 #' Machine learning interface for RNA-Seq data
 #'
-#' This package applies several machine learning methods, including SVM, bagSVM, Random Forest and CART, to RNA-Seq data.
+#' This package applies machine learning methods, such as Support Vector Machines (SVM), Random Forest (RF),
+#' Classification and Regression Trees (CART), Linear Discriminant Analysis (LDA) and more to RNA-Seq data. MLSeq combines
+#' well-known differential expression algorithms from bioconductor packages with functions from a famous package \code{caret},
+#' which has comprehensive machine learning algorithms for classification and regression tasks. Although \code{caret} has 200+
+#' classification/regression algorithm built-in, approximately 85 classification algorithms are used in \code{MLSeq} for classifying
+#' gene-expression data. See \code{availableMethods()} for further information.
+#'
+#' @seealso \code{\link{availableMethods}}, \code{\link[caret]{getModelInfo}}
 #'
 #' \tabular{ll}{
 #'   Package: \tab MLSeq\cr
@@ -75,13 +82,7 @@ NULL
 #' \code{\link[DESeq2]{DESeqDataSet}},
 #' \code{\link[DESeq2]{DESeqDataSetFromMatrix}},
 #' \code{\link[DESeq2]{DESeqDataSetFromHTSeqCount}} in DESeq2 package.
-#' @param method a character string indicating the name of classification method. There are four methods available to perform classification:
-#' \itemize{
-#' \item \code{svm}: support vector machines using radial-based kernel function
-#' \item \code{bagsvm}: support vector machines with bagging ensemble
-#' \item \code{randomForest}: random forest algorithm
-#' \item \code{cart}: classification and regression trees algorithm
-#' }
+#' @param method a character string indicating the name of classification method. Run \code{availableMethods()} for a list of available methods.
 #' @param normalize a character string indicating the name of normalization method for count data.
 #' Available options are:
 #' \itemize{
@@ -97,7 +98,7 @@ NULL
 #' }
 #' @param control a list including all the control parameters passed to model training process. This arguement is a wrapper for the
 #' arguement \code{trControl} from caret package. See \bold{?trainControl} for details.
-#' @param B an integer. It is the number of bootstrap samples for method \code{bagsvm}. Default is 100.
+#' @param B an integer. It is the number of bootstrap samples for method \code{"bag"}. Default is 25.
 #' @param ref a character string indicating the user defined reference class. Default is \code{NULL}. If NULL is selected,
 #' first category of class labels is used as reference.
 #' @param \dots optional arguments for \code{train(...)} function from \code{caret} package.
@@ -157,14 +158,14 @@ NULL
 #'
 #' ## Number of repeats (repeats) might change model accuracies ##
 #' # Classification and Regression Tree (CART) Classification
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           normalize = "deseq", transformation = "vst", ref = "T",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #' cart
 #'
 #' # Random Forest (RF) Classification
-#' # rf <- classify(data = data.trainS4, method = "randomforest",
+#' # rf <- classify(data = data.trainS4, method = "rf",
 #' #         normalize = "deseq", transformation = "vst", ref = "T",
 #' #         control = trainControl(method = "repeatedcv", number = 5,
 #' #                                repeats = 3, classProbs = TRUE))
@@ -179,21 +180,25 @@ NULL
 #' @importFrom caret bagControl confusionMatrix svmBag trainControl bag
 #'
 #' @export
-classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tmm"),
-                      transformation = c("vst", "voomCPM"), B = 100, ref = NULL,
-                      control = trainControl(method = "repeatedcv", number = 5, repeats = 10), ...){
-  if (!is.null(ref)) {
+classify <- function(data, method = "rpart", normalize = c("deseq", "none", "tmm"),
+                     transformation = c("vst", "voomCPM"), B = 25, ref = NULL,
+                     control = trainControl(method = "repeatedcv", number = 5, repeats = 10), ...){
+  if (!is.null(ref)){
     if (!is.character(ref))
       stop("Reference class should be \"character\"")
   }
-  if (is.null(ref)) {
+  if (is.null(ref)){
     ref = levels(data$condition)[1]
   }
   if (class(data)[1] != "DESeqDataSet") {
     stop("Data should be a \"DESeqDataSet Object\" of S4 class.")
   }
-  if (is.null(method)) {
+  if (is.null(method)){
     stop("Classification method is not specified.")
+  }
+
+  if (!(method %in% availableMethods())){
+    stop("Requested method is not available in \"MLSeq\".")
   }
 
   ## Methods should be one of available methods in caret's "train" function.
@@ -201,11 +206,11 @@ classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tm
   #method = match.arg(method)
   normalize = match.arg(normalize)
   transformation = match.arg(transformation)
-  if ((normalize == "tmm" & transformation == "vst")) {
+  if ((normalize == "tmm" & transformation == "vst")){
     transformation = "voomCPM"
     warning("\"vst\" transformation can be applied with \"deseq\" normalization. \"voom-CPM\" transformation is used.")
   }
-  if (normalize == "none") {
+  if (normalize == "none"){
     transformation = "NULL"
     warning("\"transformation\" method is ignored since normalization is not applied.")
   }
@@ -216,12 +221,12 @@ classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tm
   org.class.levels = levels(org.classes)
   ctrl <- control
 
-  if (normalize == "none") {
+  if (normalize == "none"){
     counts = t(counts)
     conditions = conditions
     dataexp = data.frame(counts, conditions)
   }
-  if (normalize == "tmm") {
+  if (normalize == "tmm"){
     counts = counts(data)
     y <- DGEList(counts = counts, genes = rownames(counts))
     y <- calcNormFactors(y)
@@ -231,7 +236,7 @@ classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tm
     counts = dataexp[, -length(dataexp)]
     conditions = as.factor(dataexp[, length(dataexp)])
   }
-  if (normalize == "deseq") {
+  if (normalize == "deseq"){
     data = estimateSizeFactors(data)
     if (transformation == "vst") {
       data = estimateDispersions(data, fitType = "local")
@@ -243,7 +248,7 @@ classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tm
       counts = dataexp[, -length(dataexp)]
       conditions = as.factor(dataexp[, length(dataexp)])
     }
-    if (transformation == "voomCPM") {
+    if (transformation == "voomCPM"){
       counts = counts(data, normalized = TRUE)
       y <- DGEList(counts = counts, genes = rownames(counts))
       design <- model.matrix(~conditions)
@@ -254,34 +259,19 @@ classify <- function (data, method = "rpart", normalize = c("deseq", "none", "tm
     }
   }
 
-  ## B parametresi sadece bagging olan modellerde kullanılmalı. Diğer modellerde de argüman olarak geldiği için
-  ## fonksiyonlar unused arguement hatası veriyor. B parametresinin kullanılacağı modeller için ayrıca bir blok yazılacak.
-  ## Bu modellerin listesine availableMethods() ile ulaşılabilir.
-  train <- train(counts, conditions, method = method, B = B, trControl = ctrl, ...)
-
-  # if (method == "svm") {
-  #   train <- train(counts, conditions, method = "svmRadial",
-  #                  trControl = ctrl, ...)
-  # }
-  # if (method == "bagsvm") {
-  #   train <- train(counts, conditions, method = "bag", B = B,
-  #                  bagControl = bagControl(fit = svmBag$fit, predict = svmBag$pred,
-  #                                          aggregate = svmBag$aggregate), trControl = ctrl,
-  #                  ...)
-  # }
-  # if (method == "randomforest") {
-  #   train <- train(counts, conditions, method = "rf", trControl = ctrl,
-  #                  ...)
-  # }
-  # if (method == "cart") {
-  #   train <- train(counts, conditions, method = "rpart",
-  #                  trControl = ctrl, ...)
-  # }
+  ## B parametresi sadece bagging olan modellerde kullanilmali. Diger modellerde de arguman olarak geldigi icin
+  ## fonksiyonlar unused arguement hatasi veriyor. B parametresinin kullanilacagi modeller icin ayrica bir blok yazilacak.
+  ## Bu modellerin listesine availableMethods() ile ulasilabilir.
+  if (method == "bag"){
+    train <- train(counts, conditions, method = method, B = B, trControl = ctrl, ...)
+  } else {
+    train <- train(counts, conditions, method = method, trControl = ctrl, ...)
+  }
 
   train.pred = predict(train)
   tbl.trn = table(Predicted = train.pred, Actual = org.classes)
   confM = confusionMatrix(tbl.trn, reference = ref)
-  result = new("MLSeq", confusionMat = confM, trainedModel = train,
+  result = new("MLSeq", inputObject = data, confusionMat = confM, trainedModel = train,
                method = method, normalization = normalize, transformation = transformation,
                ref = ref)
   result

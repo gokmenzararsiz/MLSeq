@@ -5,14 +5,12 @@
 \alias{MLSeq-package}
 \title{Machine learning interface for RNA-Seq data}
 \description{
-This package applies several machine learning methods, including SVM, bagSVM, Random Forest and CART, to RNA-Seq data.
-}
-\details{
-\tabular{ll}{
-  Package: \tab MLSeq\cr
-  Type: \tab Package\cr
-  License: \tab GPL (>= 2)\cr
-}
+This package applies machine learning methods, such as Support Vector Machines (SVM), Random Forest (RF),
+Classification and Regression Trees (CART), Linear Discriminant Analysis (LDA) and more to RNA-Seq data. MLSeq combines
+well-known differential expression algorithms from bioconductor packages with functions from a famous package \code{caret},
+which has comprehensive machine learning algorithms for classification and regression tasks. Although \code{caret} has 200+
+classification/regression algorithm built-in, approximately 85 classification algorithms are used in \code{MLSeq} for classifying
+gene-expression data. See \code{availableMethods()} for further information.
 }
 \author{
 Gokmen Zararsiz, Dincer Goksuluk, Selcuk Korkmaz, Vahap Eldem, Izzet Parug Duru, Turgay Unver, Ahmet Ozturk
@@ -26,6 +24,15 @@ Gokmen Zararsiz, \email{gokmenzararsiz@erciyes.edu.tr}
 Dincer Goksuluk \email{dincer.goksuluk@hacettepe.edu.tr}
 
 Selcuk Korkmaz \email{selcukorkmaz@hotmail.com}
+}
+\seealso{
+\code{\link{availableMethods}}, \code{\link[caret]{getModelInfo}}
+
+\tabular{ll}{
+  Package: \tab MLSeq\cr
+  Type: \tab Package\cr
+  License: \tab GPL (>= 2)\cr
+}
 }
 \keyword{package}
 

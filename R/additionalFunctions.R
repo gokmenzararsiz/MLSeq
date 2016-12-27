@@ -1,7 +1,7 @@
 #' Available classification/regression methods in \code{MLSeq}
 #'
 #' This function returns a character vector of available classification/regression methods in \code{MLSeq}. These methods
-#' are imported from \code{\link{caret}} package. See details below.
+#' are imported from \code{caret} package. See details below.
 #'
 #' There are 200+ methods available in \code{caret}. We import approximately 85 methods which are available for "classification" task.
 #' Some of these methods are available for both classification and regression tasks. \code{availableMethods()} returns a character vector
@@ -34,7 +34,10 @@ availableMethods <- function(model = NULL, regex = TRUE, ...){
   # This function returns the available classification methods in MLSeq. Name of the methods are identical to
   # methods in caret package.
   # Args:
-  #   No arguement is required.
+  #   model: a character string indicating the name of classification model.
+  #   regex: a logical. should a regular expressions be used? If FALSE, a simple match is conducted
+  #          against the whole name of the model.
+  #   ...: options to pass to grepl(...)
 
   ###### Available Methods #####
   # --------------------------------------------------------------------------------------------------------- #
@@ -127,7 +130,8 @@ availableMethods <- function(model = NULL, regex = TRUE, ...){
   #   svmRadial         |   Support Vector Machines with Radial Basis Function Kernel
   # --------------------------------------------------------------------------------------------------------- #
 
-  load(system.file("extdata", "availableModels.RData", package = "MLSeq"))
+  # loaded <- try({load(system.file("extdata", "availableModels.RData", package = "MLSeq"))})
+  loaded <- try({load("~/Documents/GitHub/MLSeq/inst/extdata/availableModels.RData")})
 
   if (class(loaded) == "try-error"){
     available_models <- NULL
@@ -155,8 +159,8 @@ availableMethods <- function(model = NULL, regex = TRUE, ...){
     }
 
   } else {
-    return(NULL)
     warning("Available models may not be loaded properly from \"MLSeq\" package.")
+    return(NULL)
   }
 }
 

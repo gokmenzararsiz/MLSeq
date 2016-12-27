@@ -11,6 +11,7 @@ setOldClass(c("confusionMatrix","train"))
 #' @section Slots:
 #'
 #' \describe{
+#'   \item{\code{inputObject}:}{stores the data in \code{\link[DESeq2]{DESeqDataSet}} object.}
 #'   \item{\code{method}:}{stores the name of used classification method in the classification model}
 #'   \item{\code{transformation}:}{stores the name of used transformation method in the classification model}
 #'   \item{\code{normalization}:}{stores the name of used normalization method in the classification model}
@@ -34,34 +35,45 @@ setOldClass(c("confusionMatrix","train"))
 #' @aliases MLSeq-class
 #' @exportClass MLSeq
 setClass("MLSeq",
-			slots = c(method = "character",
+			slots = c(inputObject = "DESeqDataSet",
+			          method = "character",
 					      transformation = "character",
 					      normalization = "character",
 					      confusionMat = "confusionMatrix",
 					      trainedModel = "train",
 					      ref = "character"),
-			prototype = prototype(confusionMat = structure(list(), class = "confusionMatrix"),
+			prototype = prototype(inputObject = structure(list(), class = "DESeqDataSet"),
+			                      confusionMat = structure(list(), class = "confusionMatrix"),
 			                      trainedModel = structure(list(), class = "train")))
 
 
-setValidity("MLSeq", function( object ) {
-    # if (!(method(object)  %in% c("svm", "bagsvm", "randomforest", "cart")))
-    # return("Error: 'method' slot must be in one of the following methods: \"svm\", \"bagsvm\", \"randomforest\", \"cart\" ")
+setValidity("MLSeq", function(object){
+  if ((class(input(object)) != "DESeqDataSet")){
+    return("Error: 'inputObject' is not a \"DESeqDataSet\" object.")
+  }
 
-    if (!(normalization(object)  %in% c("deseq", "none", "tmm")))
+  if (!(method(object)  %in% availableMethods(method = NULL))){
+    return("Error: 'method' slot must be in one of the available methods in MLSeq. See \"availableMethods()\" for details.")
+  }
+
+  if (!(normalization(object)  %in% c("deseq", "none", "tmm"))){
     return("Error: 'normalization' slot must be in one of the following: \"deseq\", \"none\", \"tmm\" ")
+  }
 
-    if (!(transformation(object)  %in% c("vst", "voomCPM", "NULL")))
+  if (!(transformation(object)  %in% c("vst", "voomCPM", "NULL"))){
     return("Error: 'transformation' slot must be in one of the following: \"vst\", \"voomCPM\" ")
+  }
 
-    if (!is.character(ref(object)))
+  if (!is.character(ref(object))){
     return("Error: 'ref' slot must be a character ")
+  }
 
-    if ((normalization(object) == "tmm" & transformation(object) == "vst"))
+  if ((normalization(object) == "tmm" & transformation(object) == "vst")){
     return("Warning: \"vst\" transformation can be applied only with \"deseq\" normalization. \"voom-CPM\" transformation is used. ")
+  }
 
-    TRUE
-} )
+  TRUE
+})
 
 
 

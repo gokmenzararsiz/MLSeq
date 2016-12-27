@@ -1,5 +1,63 @@
 # setGeneric("MLSeq", function(object) standardGeneric("MLSeq"))
 
+#' Accessors for the 'inputObject' slot of an \code{MLSeq} object
+#'
+#' \code{MLSeq} package benefits from \code{DESeqDataSet} structure from bioconductor package \code{DESeq2} for storing gene
+#' expression data in a comprehensive structure. This object is used as an input for classification task through \code{\link{classify}}.
+#' The input is stored in \code{inputObject} slot of \code{MLSeq} object.
+#'
+#' @docType methods
+#' @name input-methods
+#' @rdname input
+#' @aliases input
+#' @include class.R
+#'
+#' @param object an \code{MLSeq} object.
+#'
+#' @author Gokmen Zararsiz
+#'
+#' @seealso \code{\link{classify}}, \code{\link[DESeq2]{DESeqDataSet}}
+#'
+#' @examples
+#' library(DESeq2)
+#' data(cervical)
+#'
+#' # a subset of cervical data with first 150 features.
+#' data <- cervical[c(1:150),]
+#'
+#' # defining sample classes.
+#' class <- data.frame(condition=factor(rep(c("N","T"), c(29,29))))
+#'
+#' n <- ncol(data)  # number of samples
+#' p <- nrow(data)  # number of features
+#'
+#' # number of samples for test set (20% test, 80% train).
+#' nTest <- ceiling(n*0.2)
+#' ind <- sample(n, nTest, FALSE)
+#'
+#' # train set
+#' data.train <- data[,-ind]
+#' data.train <- as.matrix(data.train + 1)
+#' classtr <- data.frame(condition=class[-ind, ])
+#'
+#' # train set in S4 class
+#' data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
+#'                   colData = classtr, formula(~ condition))
+#' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
+#'
+#' # Classification and Regression Trees (CART)
+#' cart <- classify(data = data.trainS4, method = "rpart",
+#'           transformation = "vst", ref = "T", normalize = "deseq",
+#'           control = trainControl(method = "repeatedcv", number = 5,
+#'                                  repeats = 3, classProbs = TRUE))
+#'
+#' input(cart)
+#'
+#' @export
+setGeneric("input", function(object) standardGeneric("input"))
+
+
+
 #' Accessors for the 'method' slot of an \code{MLSeq} object
 #'
 #' This slot stores the name of selected model which is used in \code{classify} function.
@@ -14,7 +72,6 @@
 #' @name method-methods
 #' @rdname method
 #' @aliases method
-#' @include class.R
 #'
 #' @param object an \code{MLSeq} object.
 #'
@@ -50,7 +107,7 @@
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
@@ -59,6 +116,7 @@
 #'
 #' @export
 setGeneric("method", function(object) standardGeneric("method"))
+
 
 
 #' Accessors for the 'transformation' slot of an \code{MLSeq} object
@@ -103,7 +161,7 @@ setGeneric("method", function(object) standardGeneric("method"))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
@@ -112,6 +170,7 @@ setGeneric("method", function(object) standardGeneric("method"))
 #'
 #' @export
 setGeneric("transformation", function(object) standardGeneric("transformation"))
+
 
 
 #' Accessors for the 'normalization' slot of an \code{MLSeq} object
@@ -156,7 +215,7 @@ setGeneric("transformation", function(object) standardGeneric("transformation"))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
@@ -215,7 +274,7 @@ setGeneric("normalization", function(object) standardGeneric("normalization"))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
@@ -272,7 +331,7 @@ setGeneric("confusionMat", function(object) standardGeneric("confusionMat"))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
@@ -326,7 +385,7 @@ setGeneric("trained", function(object) standardGeneric("trained"))
 #' data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 #'
 #' # Classification and Regression Trees (CART)
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))

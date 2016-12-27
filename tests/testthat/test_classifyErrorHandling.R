@@ -33,21 +33,21 @@ test_that("classify produces error/warning messages properly.", {
                         control = trainControl(method = "repeatedcv", classProbs = TRUE)))
 
   # Reference is not defined as "character".
-  expect_error(classify(data = data.trainS4, method = "cart", normalize = "deseq",
+  expect_error(classify(data = data.trainS4, method = "rpart", normalize = "deseq",
                         transformation = "vst", ref = 2,
                         control = trainControl(method = "repeatedcv", classProbs = TRUE)))
 
   # Class of "data" should be "DESeqDataSet
-  expect_error(classify(data = data.train, method = "cart", normalize = "deseq",
+  expect_error(classify(data = data.train, method = "rpart", normalize = "deseq",
                         transformation = "vst", ref = "T",
                         control = trainControl(method = "repeatedcv", classProbs = TRUE)))
 
   # warning:
-  expect_warning(classify(data = data.trainS4, method = "cart", normalize = "tmm",
+  expect_warning(classify(data = data.trainS4, method = "rpart", normalize = "tmm",
                           transformation = "vst", ref = "T",
                           control = trainControl(method = "repeatedcv", number = 2, repeats = 2, classProbs = TRUE)))
 
-  expect_warning(classify(data = data.trainS4, method = "cart", normalize = "none",
+  expect_warning(classify(data = data.trainS4, method = "rpart", normalize = "none",
                           transformation = "vst", ref = "T",
                           control = trainControl(method = "repeatedcv", number = 2, repeats = 2, classProbs = TRUE)))
 })

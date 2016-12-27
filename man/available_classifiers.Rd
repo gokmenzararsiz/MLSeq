@@ -25,11 +25,11 @@ a requested or complete character vector of available methods.
 }
 \description{
 This function returns a character vector of available classification/regression methods in \code{MLSeq}. These methods
-are imported from \code{\link{caret}} package. See details below.
+are imported from \code{caret} package. See details below.
 }
 \details{
 There are 200+ methods available in \code{caret}. We import approximately 85 methods which are available for "classification" task.
-Some of these methods are available for both classification and regression tasks. \code{availableMethods()} return a character vector
+Some of these methods are available for both classification and regression tasks. \code{availableMethods()} returns a character vector
 of available methods in \code{MLSeq}. These names are directly used in \code{\link{classify}} function with arguement \code{method}.
 See \url{http://topepo.github.io/caret/available-models.html} for a complete list of available methods in \code{caret}.
 Run \code{printAvailableMethods()} to print detailed information about classification methods (prints to R Console).

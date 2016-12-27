@@ -46,7 +46,7 @@ data.trainS4 <- DESeqDataSetFromMatrix(countData = data.train,
 data.trainS4 <- DESeq(data.trainS4, fitType = "local")
 
 # Classification and Regression Trees (CART)
-cart <- classify(data = data.trainS4, method = "cart",
+cart <- classify(data = data.trainS4, method = "rpart",
           transformation = "vst", ref = "T", normalize = "deseq",
           control = trainControl(method = "repeatedcv", number = 5,
                                  repeats = 3, classProbs = TRUE))

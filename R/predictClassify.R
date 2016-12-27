@@ -83,26 +83,19 @@
 #'
 #' ## Number of repeats (repeats) might change model accuracies ##
 #' # Classification and Regression Tree (CART) Classification
-#' cart <- classify(data = data.trainS4, method = "cart",
+#' cart <- classify(data = data.trainS4, method = "rpart",
 #'           transformation = "vst", ref = "T", normalize = "deseq",
 #'           control = trainControl(method = "repeatedcv", number = 5,
 #'                                  repeats = 3, classProbs = TRUE))
 #' cart
-#'
-#' # Random Forest (RF) Classification
-#' rf <- classify(data = data.trainS4, method = "randomforest",
-#'         transformation = "vst", ref = "T", normalize = "deseq",
-#'         control = trainControl(method = "repeatedcv", number = 5,
-#'                                repeats = 3, classProbs = TRUE))
-#' rf
 #'
 #' # predicted classes of test samples for CART method (class probabilities)
 #' pred.cart = predictClassify(cart, data.testS4, type = "prob")
 #' pred.cart
 #'
 #' # predicted classes of test samples for RF method (class labels)
-#' pred.rf = predictClassify(rf, data.testS4, type = "raw")
-#' pred.rf
+#' pred.cart = predictClassify(cart, data.testS4, type = "raw")
+#' pred.cart
 #'
 #' @importFrom caret predict.train
 #'
